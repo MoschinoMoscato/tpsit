@@ -1,0 +1,87 @@
+/* Palette - Hot Red Header, Gunmetal Footer, Dark Sidebar, Black Content */
+:root{
+  /* Base and surfaces */
+  --brand-bg: #000000;           /* Black (content background) */
+  --brand-bg-2: #2E2E2E;         /* Gunmetal Gray (footer) */
+  --brand-surface: #1C1C1C;      /* Dark Gray (sidebar/surfaces) */
+
+  /* Accents */
+  --brand-accent: #ffffff;   
+
+  /* Typography */
+  --brand-text: #e6edf3;         /* primary text on dark */
+  --brand-muted: #b5b5b5;        /* secondary text */
+  --brand-border: #3A3A3A;       /* borders */
+}
+
+body{
+  background-color: var(--brand-bg);
+  color: var(--brand-text);
+}
+
+.site-header{
+  background-color: #363334;
+  border-bottom: 1px solid var(--brand-border);
+  color: #ffffff; 
+}
+.site-header a{ color: var(--brand-accent); }
+.site-header a:hover{ color: var(--brand-accent-blue); }
+
+.site-sidebar{
+  background-color: var(--brand-surface); /* Dark Gray */
+  border-right: 1px solid var(--brand-border);
+  color: #ffffff;
+}
+
+
+.content-area{
+  background-color: var(--brand-bg); /* Black */
+  color: #ffffff; /* White text */
+}
+
+/* Optional light mood for content */
+.content-area.content-invert{
+  background-color: #ffffff !important;
+  color: #111111 !important;
+}
+.content-area.content-invert a{ color: var(--brand-accent-blue); }
+.content-area.content-invert a:hover{ color: var(--brand-accent-blue-hover); }
+
+.site-footer{
+  background-color: var(--brand-bg-2); /* Gunmetal Gray */
+  border-top: 1px solid var(--brand-border);
+  color: #ffffff;
+}
+.site-footer a{ color: var(--brand-accent-blue); }
+.site-footer a:hover{ color: var(--brand-accent-blue-hover); }
+
+
+a{
+  color: var(--brand-link);
+}
+a:hover{ color: var(--brand-link-hover); }
+
+
+
+.text-muted{ color: var(--brand-muted) !important; }
+
+
+iframe{ background: transparent; }
+
+
+.site-sidebar .nav-link,
+.site-sidebar a{ color: var(--brand-accent) !important; /* gold links override Bootstrap link-light */ }
+.site-sidebar .nav-link:hover,
+.site-sidebar a:hover{ color: var(--brand-accent-blue); }
+
+
+
+/* Subtle elevation using pure black for shadows */
+.shadow, .card, .dropdown-menu, .modal-content{
+  box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+}
+
+/* Use petrol blue as cold accent backgrounds when needed */
+.bg-accent-cold{ background-color: var(--brand-accent-cold) !important; color: var(--brand-text) !important; }
+.text-accent{ color: var(--brand-accent) !important; }
+

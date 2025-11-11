@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<totale>
+
+    <header>Wayne enterprises</header>
+    <footer>Per info o dubbi non contattare, grazie</footer>
+
+    <sidebar>
+        <part> Home </part>
+        <rif>?page=home</rif>
+        <pos>1</pos>
+
+        <part> PHPinfo </part>
+        <rif>?page=phpinfo</rif>
+        <pos>2</pos>
+
+        <part> Form </part>
+        <rif>?page=elenco_articoli</rif>
+        <pos>3</pos>
+    </sidebar>
+
+</totale>
