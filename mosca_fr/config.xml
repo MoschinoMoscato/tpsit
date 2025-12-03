@@ -1,1 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<site>
+    <header>Leonardo Mosca</header>
+
+    <sidebar>
+        <link>
+            <text>Home</text>
+            <page>home</page>
+            <pos>1</pos>
+        </link>
+
+        <link>
+            <text>PHP Info</text>
+            <page>phpinfo</page>
+            <pos>2</pos>
+        </link>
+
+        <link>
+            <text>Form</text>
+            <page>elenco_articoli</page>
+            <pos>3</pos>
+        </link>
+    </sidebar>
+
+    <footer>© 2025 Leonardo Mosca</footer>
+</site>
