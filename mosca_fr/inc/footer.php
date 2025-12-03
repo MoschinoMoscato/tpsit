@@ -1,5 +1,5 @@
 <div class="footer">
  <footer>
-  <p>© 2025 Leonardo Mosca</p>
+  <p><?php echo"$footer" ?></p>
  </footer>
 </div>
