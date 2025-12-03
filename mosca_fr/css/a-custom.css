@@ -7,6 +7,10 @@ html, body
 
 .wrapper
 {
+ font-family: "Lato", sans-serif;
+ font-weight: 400;
+ font-style: normal;
+
  display:flex;
  flex-direction:column;
  min-height: 100%;
@@ -26,26 +30,47 @@ html, body
 {
  background-color:#3B2A1A;
  color:#F5EEDC;
+ border-bottom: 1px solid #D7C3A3;
+ padding:10px;
 }
 
 .sidebar
 {
- background-color:#6E4F2B;
- color:#F5EEDC;
- a:link { color:#F5EEDC; }
- a:visited { color:#F5EEDC; }
- a:active { color:#F5EEDC; }
- a:hover { color:#4CAF50; }
  display: flex;
- width: 200px;
- flex-direction: column;
+ 
+ background-color:#F5EEDC;
+ color:#3B2A1A;
+ flex:1; /*Occupa tutto lo spazio rimanente*/
+ padding:10px;
+ 
+ font-size: 30px;
+ text-align: center;
+ justify-content: center;
+ align-items: center;
 }
+.sidebar a { margin-bottom: 10px; }
+.sidebar a:link { color:#F5EEDC; }
+.sidebar a:visited { color:#F5EEDC; }
+.sidebar a:active { color:#F5EEDC; }
+.sidebar a:hover { color:#4CAF50; }
 
 .content
 {
  background-color:#F5EEDC;
  color:#3B2A1A;
  flex:1; /*Occupa tutto lo spazio rimanente*/
+ padding:10px;
+
+ font-size: 30px;
+ text-align: center;
+ justify-content: center;
+ align-items: center;
+}
+.content>iframe
+{ 
+ width:100%;
+ height:100%;
+ border:none; 
 }
 
 .footer
@@ -53,4 +78,5 @@ html, body
  background-color:#3B2A1A;
  color:#F5EEDC;
  text-align: center;
+ border-top: 1px solid #D7C3A3;
 }
