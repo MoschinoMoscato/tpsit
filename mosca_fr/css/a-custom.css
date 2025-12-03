@@ -52,6 +52,8 @@ html, body
 
 .content
 {
+ display: flex;
+
  background-color:#F5EEDC;
  color:#3B2A1A;
  flex:1; /*Occupa tutto lo spazio rimanente*/
