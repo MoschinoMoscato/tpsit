@@ -10,7 +10,7 @@
   <iframe src="inc/phpinfo.php" title="PHP_info"></iframe> <!-- iframe per mostrare phpinfo -->
  <?php endif; ?>
 
- <!-- Se la page è form -->
+ <!-- Se la page è Form -->
  <?php if($_GET["page"] == "elenco_articoli"): ?>
   
  <?php endif; ?>

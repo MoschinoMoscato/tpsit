@@ -36,17 +36,13 @@ html, body
 
 .sidebar
 {
+ background-color:#6E4F2B;
+ color:#F5EEDC;
  display: flex;
- 
- background-color:#F5EEDC;
- color:#3B2A1A;
- flex:1; /*Occupa tutto lo spazio rimanente*/
+ width: 200px;
+ flex-direction: column;
+ border-right: 1px solid #D7C3A3;
  padding:10px;
- 
- font-size: 30px;
- text-align: center;
- justify-content: center;
- align-items: center;
 }
 .sidebar a { margin-bottom: 10px; }
 .sidebar a:link { color:#F5EEDC; }
