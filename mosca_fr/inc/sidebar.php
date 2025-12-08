@@ -1,11 +1,14 @@
 <div class="sidebar">
- <p><a href="?page=home">Home</a></p>
- <p><a href="?page=PHP_info">PHP info</a></p>
- <p><a href="?page=elenco_articoli">Form</a></p>
 
  <?php
-  foreach($ as $)
+  $site = include("parsing.php");
 
-
+  array_multisort($site["pos"], SORT_ASC, $site["text"], $site["page"]);
+  
+  foreach($site["text"] as $i => $value)
+  {
+   echo '<p><a href="?page=' . $site["page"][$i] . '">' . $value . '</a></p>';
+  }
  ?>
+
 </div>

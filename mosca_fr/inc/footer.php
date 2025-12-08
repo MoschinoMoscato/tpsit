@@ -1,5 +1,9 @@
 <div class="footer">
  <footer>
-  <p><?php echo"$footer" ?></p>
+  <?php
+   $site = include("parsing.php");
+  
+   echo"<p>" . $site["footer"] . "</p>"
+  ?>
  </footer>
 </div>

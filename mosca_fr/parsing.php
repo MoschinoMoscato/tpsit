@@ -21,7 +21,8 @@
 
 		$site["header"] = (string)$xml->header;
 
-		foreach($xml->sidebar->link as $link) 
+		// Sidebar
+  foreach($xml->sidebar->link as $link) 
 		{
 	 	$site["text"][] = (string)$link->text;
 	 	$site["page"][] = (string)$link->page;
@@ -32,5 +33,4 @@
  }
 	
 	return $site;
-
 ?>

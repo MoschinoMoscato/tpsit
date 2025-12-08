@@ -12,7 +12,7 @@
 
         <link>
             <text>PHP Info</text>
-            <page>phpinfo</page>
+            <page>PHP_info</page>
             <pos>2</pos>
         </link>
 

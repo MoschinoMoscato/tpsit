@@ -1,3 +1,7 @@
 <div class ="header">
- <h1><?php echo"$header" ?></h1>
+ <?php
+  $site = include("parsing.php");
+
+  echo"<h1>" . $site["header"] . "</h1>" 
+ ?>
 </div>
