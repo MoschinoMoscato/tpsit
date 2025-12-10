@@ -18,7 +18,7 @@
 
         <link>
             <text>Form</text>
-            <page>elenco_articoli</page>
+            <page>form</page>
             <pos>3</pos>
         </link>
     </sidebar>

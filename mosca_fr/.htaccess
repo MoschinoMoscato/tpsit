@@ -7,4 +7,3 @@
         Deny from all
     </IfModule>
 </FilesMatch>
-

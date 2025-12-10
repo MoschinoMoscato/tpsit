@@ -2,7 +2,9 @@
  
  <!-- Se la page è Home -->
  <?php if($_GET["page"] == "home"): ?>
-  <p title="Benvenuto nel sito di Leonardo Mosca">Welcome to Leonardo Mosca's site</p>
+  <div class="home">
+   <p title="Benvenuto nel sito di Leonardo Mosca">Welcome to Leonardo Mosca's site</p>
+  </div>
  <?php endif; ?>
 
  <!-- Se la page è php_info -->
@@ -11,8 +13,68 @@
  <?php endif; ?>
 
  <!-- Se la page è Form -->
- <?php if($_GET["page"] == "elenco_articoli"): ?>
-  
+ <?php if($_GET["page"] == "form"): ?>
+  <div class="form">
+
+   <form action="" method="post"> 
+    <?php $xml_sx = simplexml_load_file("fatture.xml") or die("Errore caricamento XML"); // Apro il file XML ?>
+
+    <label for="descrizione">Descrizione articolo:</label><br>
+    <input type="text" id="descrizione" name="descrizione"><br>
+
+    <label for="quanto">Quantità:</label><br>
+    <input type="text" id="quanto" name="quanto"><br>
+
+    <label for="fname">Prezzo unitario €:</label><br>
+    <input type="text" id="price" name="price"><br>
+
+    <input type="submit" value="Aggiungi articolo">
+    <input type="reset" value="Reset">
+   </form>
+
+   <?php
+    // Carico DOMDocument
+    $xml_dom = new DOMDocument();
+    $xml_dom->preserveWhiteSpace = false;
+    $xml_dom->formatOutput = true; 
+    $xml_dom->load("fatture.xml");  
+
+    if($_SERVER["REQUEST_METHOD"] == "POST")
+    {
+     $descrizione = $_POST["descrizione"];
+     $prezzo_unitario = $_POST["price"];
+     $quantita = $_POST["quanto"];
+     $prezzo_totale = $quantita * $prezzo_unitario;
+
+     // Controllo che i campi non siano stati lasciati vuoti e aggiungo l'articolo
+     if(!empty($descrizione) && !empty($quantita) && !empty($prezzo_unitario)) 
+     {
+      $new_article = $xml_sx->Articoli->addChild("Articolo"); // Aggiunge un nuovo nodo <Articolo> all'XML e mi restituisce il riferimento a quel nodo in $new_article
+      // Aggiungo i vari sotto-nodi
+      $new_article->addChild("Descrizione", $descrizione);
+      $new_article->addChild("Quantita", $quantita);
+      $new_article->addChild("PrezzoUnitario", $prezzo_unitario);
+      $new_article->addChild("PrezzoTotale", $prezzo_totale);
+
+      $xml_sx->asXML("fatture.xml"); // Salvo le modifiche al file XML
+
+      // Riformatto il file XML per renderlo leggibile    
+      $xml_dom->load("fatture.xml");
+      $xml_dom->save("fatture.xml");
+     }
+    }
+
+    // Valido l'XML contro lo schema XSD
+    if($xml_dom->schemaValidate("fatture.xsd"))
+    {
+     echo "<p>XML valido</p>";
+    }
+    else
+    {
+     echo "<p>XML non valido</p>";
+    }
+   ?>
+  </div>
  <?php endif; ?>
 
 </div>
