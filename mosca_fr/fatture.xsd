@@ -36,7 +36,7 @@
         <xs:element name="Articoli">
           <xs:complexType>
             <xs:sequence>
-              <xs:element maxOccurs="unbounded" name="Articolo">
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="Articolo">
                 <xs:complexType>
                   <xs:sequence>
                     <xs:element name="Descrizione" type="xs:string" />

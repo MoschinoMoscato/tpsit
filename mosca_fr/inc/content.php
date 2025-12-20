@@ -63,7 +63,7 @@
      $quantita = $_POST["quanto"];
 
      // Controllo che i campi non siano stati lasciati vuoti e aggiungo l'articolo
-     if(!empty($descrizione) && !empty($quantita) && !empty($prezzo_unitario)) 
+     if(!empty($descrizione) && is_numeric($quantita) && intval($quantita) == $quantita && $quantita > 0 && is_numeric($prezzo_unitario) && $prezzo_unitario >= 0) 
      {
       $prezzo_totale = $quantita * $prezzo_unitario;
 
