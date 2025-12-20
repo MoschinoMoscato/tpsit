@@ -16,39 +16,56 @@
  <?php if($_GET["page"] == "form"): ?>
   <div class="form">
 
-   <form action="" method="post"> 
-    <?php $xml_sx = simplexml_load_file("fatture.xml") or die("Errore caricamento XML"); // Apro il file XML ?>
+   <div class="form-top">
 
-    <label for="descrizione">Descrizione articolo:</label><br>
-    <input type="text" id="descrizione" name="descrizione"><br>
+    <?php
+     // Carico DOMDocument
+     $xml_dom = new DOMDocument();
+     $xml_dom->preserveWhiteSpace = false;
+     $xml_dom->formatOutput = true; 
+     $xml_dom->load("fatture.xml"); 
+    ?> 
 
-    <label for="quanto">Quantità:</label><br>
-    <input type="text" id="quanto" name="quanto"><br>
+    <!-- Form per l'inserimento di un nuovo articolo -->
+    <form action="" method="post"> 
+     <?php $xml_sx = simplexml_load_file("fatture.xml") or die("Errore caricamento XML"); // Apro il file XML ?>
 
-    <label for="fname">Prezzo unitario €:</label><br>
-    <input type="text" id="price" name="price"><br>
+     <label for="descrizione">Descrizione articolo:</label><br>
+     <input type="text" id="descrizione" name="descrizione"><br>
 
-    <input type="submit" value="Aggiungi articolo">
-    <input type="reset" value="Reset">
-   </form>
+     <label for="quanto">Quantità:</label><br>
+     <input type="text" id="quanto" name="quanto"><br>
+
+     <label for="fname">Prezzo unitario €:</label><br>
+     <input type="text" id="price" name="price"><br>
+
+     <input type="submit" value="Aggiungi articolo">
+     <input type="reset" value="Reset">
+    </form>
+
+    <!-- Valido l'XML contro lo schema XSD -->
+    <?php if($xml_dom->schemaValidate("fatture.xsd")) : ?>
+     <div class="xml-status">XML valido</div>
+
+    <?php else: ?>
+     <div class="xml-status">XML non valido</div>
+
+    <?php endif; ?>
+    
+   </div>
 
    <?php
-    // Carico DOMDocument
-    $xml_dom = new DOMDocument();
-    $xml_dom->preserveWhiteSpace = false;
-    $xml_dom->formatOutput = true; 
-    $xml_dom->load("fatture.xml");  
-
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
      $descrizione = $_POST["descrizione"];
      $prezzo_unitario = $_POST["price"];
      $quantita = $_POST["quanto"];
-     $prezzo_totale = $quantita * $prezzo_unitario;
 
      // Controllo che i campi non siano stati lasciati vuoti e aggiungo l'articolo
      if(!empty($descrizione) && !empty($quantita) && !empty($prezzo_unitario)) 
      {
+      $prezzo_totale = $quantita * $prezzo_unitario;
+
       $new_article = $xml_sx->Articoli->addChild("Articolo"); // Aggiunge un nuovo nodo <Articolo> all'XML e mi restituisce il riferimento a quel nodo in $new_article
       // Aggiungo i vari sotto-nodi
       $new_article->addChild("Descrizione", $descrizione);
@@ -61,20 +78,34 @@
       // Riformatto il file XML per renderlo leggibile    
       $xml_dom->load("fatture.xml");
       $xml_dom->save("fatture.xml");
+      header("Location: index.php?page=form");
      }
     }
-
-    // Valido l'XML contro lo schema XSD
-    if($xml_dom->schemaValidate("fatture.xsd"))
-    {
-     echo "<p>XML valido</p>";
-    }
-    else
-    {
-     echo "<p>XML non valido</p>";
-    }
    ?>
+   
+			<!--- Ricarico il file per poi stampare la tabella HTML --->
+			<?php $xml_list = simplexml_load_file("fatture.xml"); ?>
+
+			<table class = "tabella">
+				<tr>
+					<th>Descrizione</th>
+					<th>Quantità</th>
+					<th>Prezzo unitario €</th>
+					<th>Prezzo totale €</th>
+			 </tr>
+				
+				<?php foreach($xml_list->Articoli->Articolo as $art): ?>
+			 	<tr>
+			 		<td> <?php echo $art->Descrizione; ?> </td>
+						<td> <?php echo $art->Quantita; ?> </td>
+						<td> <?php echo $art->PrezzoUnitario; ?> </td>
+						<td> <?php echo $art->PrezzoTotale; ?> </td>
+			  </tr>	
+				<?php endforeach; ?>
+
+			</table>
   </div>
  <?php endif; ?>
+
 
 </div>
