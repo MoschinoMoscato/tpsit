@@ -39,8 +39,9 @@
      <label for="fname">Prezzo unitario €:</label><br>
      <input type="text" id="price" name="price"><br>
 
-     <input type="submit" value="Aggiungi articolo">
-     <input type="reset" value="Reset">
+     <input type="submit" name="add" value="Aggiungi articolo">
+     <input type="reset" value="Reset campi">
+     <input type="submit" name="reset_xml" value="Reset tabella">
     </form>
 
     <!-- Valido l'XML contro lo schema XSD -->
@@ -51,11 +52,11 @@
      <div class="xml-status">XML non valido</div>
 
     <?php endif; ?>
-    
+
    </div>
 
    <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST")
+    if(isset($_POST["add"]))
     {
      $descrizione = $_POST["descrizione"];
      $prezzo_unitario = $_POST["price"];
@@ -80,6 +81,20 @@
       $xml_dom->save("fatture.xml");
       header("Location: index.php?page=form");
      }
+    }
+
+    /* RESET TABELLA */
+    if (isset($_POST["reset_xml"])) 
+    {
+     // Cancello tutti gli Articolo
+     unset($xml_sx->Articoli->Articolo);
+
+     // Salvo l'XML vuoto
+     $xml_sx->asXML("fatture.xml");
+
+     // Ricarico la pagina
+     header("Location: index.php?page=form");
+     exit;
     }
    ?>
    
