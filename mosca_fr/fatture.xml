@@ -16,8 +16,360 @@
     <Indirizzo>Corso Italia, 5</Indirizzo>
     <Citta>Torino</Citta>
   </Cliente>
-  <Articoli>
+   
+   <Articoli>
+    <Articolo>
+      <Codice>1</Codice>
+      <Descrizione>CPU AMD Ryzen 7 7800X3D</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>389.00</PrezzoUnitario>
+      <PrezzoTotale>389.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>2</Codice>
+      <Descrizione>CPU Intel Core i7-14700K</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>429.00</PrezzoUnitario>
+      <PrezzoTotale>429.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>3</Codice>
+      <Descrizione>GPU NVIDIA GeForce RTX 4070 SUPER 12GB</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>649.00</PrezzoUnitario>
+      <PrezzoTotale>649.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>4</Codice>
+      <Descrizione>GPU AMD Radeon RX 7800 XT 16GB</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>549.00</PrezzoUnitario>
+      <PrezzoTotale>549.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>5</Codice>
+      <Descrizione>Motherboard MSI B650 Tomahawk WiFi</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>219.00</PrezzoUnitario>
+      <PrezzoTotale>219.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>6</Codice>
+      <Descrizione>Motherboard ASUS TUF Gaming Z790-PLUS WiFi</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>279.00</PrezzoUnitario>
+      <PrezzoTotale>279.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>7</Codice>
+      <Descrizione>RAM Corsair Vengeance 32GB (2x16) DDR5-6000</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>109.00</PrezzoUnitario>
+      <PrezzoTotale>109.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>8</Codice>
+      <Descrizione>RAM G.Skill Trident Z5 64GB (2x32) DDR5-6000</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>219.00</PrezzoUnitario>
+      <PrezzoTotale>219.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>9</Codice>
+      <Descrizione>SSD Samsung 990 PRO 2TB NVMe</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>169.00</PrezzoUnitario>
+      <PrezzoTotale>169.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>10</Codice>
+      <Descrizione>SSD WD Black SN850X 1TB NVMe</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>89.00</PrezzoUnitario>
+      <PrezzoTotale>89.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>11</Codice>
+      <Descrizione>HDD Seagate BarraCuda 4TB</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>89.00</PrezzoUnitario>
+      <PrezzoTotale>89.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>12</Codice>
+      <Descrizione>PSU Corsair RM850x 850W 80+ Gold</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>139.00</PrezzoUnitario>
+      <PrezzoTotale>139.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>13</Codice>
+      <Descrizione>PSU Seasonic Focus GX-750 750W 80+ Gold</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>129.00</PrezzoUnitario>
+      <PrezzoTotale>129.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>14</Codice>
+      <Descrizione>Case Lian Li Lancool 216</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>109.00</PrezzoUnitario>
+      <PrezzoTotale>109.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>15</Codice>
+      <Descrizione>Case NZXT H6 Flow</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>119.00</PrezzoUnitario>
+      <PrezzoTotale>119.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>16</Codice>
+      <Descrizione>CPU Cooler Noctua NH-D15 chromax.black</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>109.00</PrezzoUnitario>
+      <PrezzoTotale>109.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>17</Codice>
+      <Descrizione>AIO Liquid Cooler Arctic Liquid Freezer III 360</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>119.00</PrezzoUnitario>
+      <PrezzoTotale>119.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>18</Codice>
+      <Descrizione>Thermal Paste Arctic MX-6</Descrizione>
+      <Quantita>2</Quantita>
+      <PrezzoUnitario>7.99</PrezzoUnitario>
+      <PrezzoTotale>15.98</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>19</Codice>
+      <Descrizione>Fan ARCTIC P12 PWM PST (5-pack)</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>29.99</PrezzoUnitario>
+      <PrezzoTotale>29.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>20</Codice>
+      <Descrizione>Fan Noctua NF-A12x25 PWM</Descrizione>
+      <Quantita>2</Quantita>
+      <PrezzoUnitario>32.90</PrezzoUnitario>
+      <PrezzoTotale>65.80</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>21</Codice>
+      <Descrizione>PCIe Wi-Fi 6E + Bluetooth 5.3 Card</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>39.99</PrezzoUnitario>
+      <PrezzoTotale>39.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>22</Codice>
+      <Descrizione>M.2 NVMe Heatsink</Descrizione>
+      <Quantita>2</Quantita>
+      <PrezzoUnitario>9.90</PrezzoUnitario>
+      <PrezzoTotale>19.80</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>23</Codice>
+      <Descrizione>SATA Cable (2-pack)</Descrizione>
+      <Quantita>2</Quantita>
+      <PrezzoUnitario>4.50</PrezzoUnitario>
+      <PrezzoTotale>9.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>24</Codice>
+      <Descrizione>USB 3.2 Flash Drive 128GB</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>14.99</PrezzoUnitario>
+      <PrezzoTotale>14.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>25</Codice>
+      <Descrizione>External SSD 1TB USB-C</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>89.99</PrezzoUnitario>
+      <PrezzoTotale>89.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>26</Codice>
+      <Descrizione>Monitor 27&quot; 1440p 165Hz IPS</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>239.00</PrezzoUnitario>
+      <PrezzoTotale>239.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>27</Codice>
+      <Descrizione>Monitor Arm Single</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>59.99</PrezzoUnitario>
+      <PrezzoTotale>59.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>28</Codice>
+      <Descrizione>Mechanical Keyboard TKL</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>79.99</PrezzoUnitario>
+      <PrezzoTotale>79.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>29</Codice>
+      <Descrizione>Gaming Mouse Logitech G502 HERO</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>49.99</PrezzoUnitario>
+      <PrezzoTotale>49.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>30</Codice>
+      <Descrizione>Mouse Pad XXL</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>19.99</PrezzoUnitario>
+      <PrezzoTotale>19.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>31</Codice>
+      <Descrizione>Headset HyperX Cloud II</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>69.99</PrezzoUnitario>
+      <PrezzoTotale>69.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>32</Codice>
+      <Descrizione>Webcam 1080p</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>39.99</PrezzoUnitario>
+      <PrezzoTotale>39.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>33</Codice>
+      <Descrizione>Speakers 2.0</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>29.99</PrezzoUnitario>
+      <PrezzoTotale>29.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>34</Codice>
+      <Descrizione>UPS 850VA</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>109.99</PrezzoUnitario>
+      <PrezzoTotale>109.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>35</Codice>
+      <Descrizione>Surge Protector 8 outlets</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>24.99</PrezzoUnitario>
+      <PrezzoTotale>24.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>36</Codice>
+      <Descrizione>HDMI 2.1 Cable 2m</Descrizione>
+      <Quantita>2</Quantita>
+      <PrezzoUnitario>9.99</PrezzoUnitario>
+      <PrezzoTotale>19.98</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>37</Codice>
+      <Descrizione>DisplayPort 1.4 Cable 2m</Descrizione>
+      <Quantita>2</Quantita>
+      <PrezzoUnitario>9.49</PrezzoUnitario>
+      <PrezzoTotale>18.98</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>38</Codice>
+      <Descrizione>Cable Management Kit</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>12.99</PrezzoUnitario>
+      <PrezzoTotale>12.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>39</Codice>
+      <Descrizione>RGB LED Strip kit</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>16.99</PrezzoUnitario>
+      <PrezzoTotale>16.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>40</Codice>
+      <Descrizione>RGB Fan Controller</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>24.99</PrezzoUnitario>
+      <PrezzoTotale>24.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>41</Codice>
+      <Descrizione>PCIe Riser Cable</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>19.99</PrezzoUnitario>
+      <PrezzoTotale>19.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>42</Codice>
+      <Descrizione>CPU Contact Frame LGA1700</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>9.99</PrezzoUnitario>
+      <PrezzoTotale>9.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>43</Codice>
+      <Descrizione>Anti-static Wrist Strap</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>6.99</PrezzoUnitario>
+      <PrezzoTotale>6.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>44</Codice>
+      <Descrizione>PC Tool Kit (screwdriver set)</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>19.99</PrezzoUnitario>
+      <PrezzoTotale>19.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>45</Codice>
+      <Descrizione>USB-C Hub 7-in-1</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>34.99</PrezzoUnitario>
+      <PrezzoTotale>34.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>46</Codice>
+      <Descrizione>1G Ethernet Switch (5-port)</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>19.99</PrezzoUnitario>
+      <PrezzoTotale>19.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>47</Codice>
+      <Descrizione>Cat6 Ethernet Cable 10m</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>9.99</PrezzoUnitario>
+      <PrezzoTotale>9.99</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>48</Codice>
+      <Descrizione>Windows 11 Pro OEM License Key</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>129.00</PrezzoUnitario>
+      <PrezzoTotale>129.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>49</Codice>
+      <Descrizione>Blu-ray/DVD External Drive USB</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>79.00</PrezzoUnitario>
+      <PrezzoTotale>79.00</PrezzoTotale>
+    </Articolo>
+    <Articolo>
+      <Codice>50</Codice>
+      <Descrizione>SD Card Reader USB 3.0</Descrizione>
+      <Quantita>1</Quantita>
+      <PrezzoUnitario>12.49</PrezzoUnitario>
+      <PrezzoTotale>12.49</PrezzoTotale>
+    </Articolo>
   </Articoli>
+
   <Totali>
     <Imponibile>250.00</Imponibile>
     <IVA>55.00</IVA>

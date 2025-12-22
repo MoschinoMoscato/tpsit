@@ -1,27 +1,33 @@
 <div class="content">
  
- <!-- Se la page è Home -->
+ <!---------------------------------------------------------------- Se la page è Home ---------------------------------------------------------------->
  <?php if($_GET["page"] == "home"): ?>
   <div class="home">
    <p title="Benvenuto nel sito di Leonardo Mosca">Welcome to Leonardo Mosca's site</p>
   </div>
  <?php endif; ?>
 
- <!-- Se la page è php_info -->
+ <!---------------------------------------------------------------- Se la page è php_info ---------------------------------------------------------------->
  <?php if($_GET["page"] == "PHP_info"): ?>
   <iframe src="inc/phpinfo.php" title="PHP_info"></iframe> <!-- iframe per mostrare phpinfo -->
  <?php endif; ?>
 
- <!-- Se la page è Form -->
+ <!---------------------------------------------------------------- Se la page è Form ---------------------------------------------------------------->
  <?php if($_GET["page"] == "form"): ?>
   <div class="form">
 
    <div class="form-top">
     
-    <div class ="json">
-     <!-- Esportazione in JSON -->
+   <!-- Esportazione in JSON --> 
+   <div class ="json">
      <form method="post">
       <input type="submit" name="export_json" value="Esporta JSON">
+     </form>
+
+     <!-- Visualizzazione JSON -->
+     <form method="get">
+      <input type="hidden" name="page" value="view_json">
+      <input type="submit" value="Visualizza JSON">
      </form>
     </div>
 
@@ -128,5 +134,25 @@
   </div>
  <?php endif; ?>
 
+ <!---------------------------------------------------------------- Se la page è view_json ---------------------------------------------------------------->
+ <?php if($_GET["page"] == "view_json"): ?>
+  <div class="view_json">
+   <?php
+    $json_file = file_get_contents("fatture.xml"); // Leggo il file XML
+    $xml_json = simplexml_load_string($json_file) or die("Errore caricamento XML"); // Carico il file XML
+
+    $json = json_encode($xml_json, JSON_PRETTY_PRINT); // Converto in JSON con pretty print per la formattazione
+
+    echo "<pre>" . $json . "</pre>"; // Stampo il JSON formattato
+   ?>
+  </div>
+ <?php endif; ?>
+
+ <!---------------------------------------------------------------- Se la page è Area riservata ---------------------------------------------------------------->
+ <?php if($_GET["page"] == "area_riservata"): ?>
+  <div class="area_riservata">
+   
+  </div>
+ <?php endif; ?>
 
 </div>

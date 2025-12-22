@@ -91,8 +91,10 @@ html, body
  align-items: flex-start;
  width: 100%;
 }
-.form-top > .json-actions
+.form-top>.json
 {
+ display: flex;
+ flex-direction: column;
  text-align: right;
 }
 .form-top form 
@@ -130,6 +132,11 @@ html, body
 {
  border: 1px solid #4CAF50;
  padding: 6px 10px;
+}
+
+.content>.view_json
+{
+ font-size: 14px;
 }
 
 .footer

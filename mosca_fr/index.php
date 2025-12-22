@@ -10,7 +10,7 @@
  {
   $xml_json = simplexml_load_file("fatture.xml") or die("Errore caricamento XML"); // Apro il file XML
 
-  $json = json_encode($xml_json, JSON_PRETTY_PRINT); // Converto in JSON
+  $json = json_encode($xml_json, JSON_PRETTY_PRINT); // Converto in JSON con pretty print per la formattazione
 
   // Header HTTP per forzare il download
   header("Content-Type: application/json");
