@@ -17,14 +17,13 @@
   <div class="form">
 
    <div class="form-top">
-
-    <?php
-     // Carico DOMDocument
-     $xml_dom = new DOMDocument();
-     $xml_dom->preserveWhiteSpace = false;
-     $xml_dom->formatOutput = true; 
-     $xml_dom->load("fatture.xml"); 
-    ?> 
+    
+    <div class ="json">
+     <!-- Esportazione in JSON -->
+     <form method="post">
+      <input type="submit" name="export_json" value="Esporta JSON">
+     </form>
+    </div>
 
     <!-- Form per l'inserimento di un nuovo articolo -->
     <form action="" method="post"> 
@@ -39,7 +38,7 @@
      <label for="quanto">Quantità:</label><br>
      <input type="number" id="quanto" name="quanto"><br>
 
-     <label for="fname">Prezzo unitario €:</label><br>
+     <label for="fname">Prezzo unitario:</label><br>
      <input type="number" step="0.01" id="price" name="price"><br>
 
      <input type="submit" name="add" value="Aggiungi articolo">
@@ -111,8 +110,8 @@
 					<th>Codice</th>
 					<th>Descrizione</th>
 					<th>Quantità</th>
-					<th>Prezzo unitario €</th>
-					<th>Prezzo totale €</th>
+					<th>Prezzo unitario</th>
+					<th>Prezzo totale</th>
 			 </tr>
 				
 				<?php foreach($xml_list->Articoli->Articolo as $art): ?>
@@ -120,8 +119,8 @@
 			 		<td> <?php echo $art->Codice; ?> </td>
 			 		<td> <?php echo $art->Descrizione; ?> </td>
 						<td> <?php echo $art->Quantita; ?> </td>
-						<td> <?php echo $art->PrezzoUnitario; ?> </td>
-						<td> <?php echo $art->PrezzoTotale; ?> </td>
+						<td> <?php echo $art->PrezzoUnitario. " €"; ?> </td>
+						<td> <?php echo $art->PrezzoTotale . " €"; ?> </td>
 			  </tr>	
 				<?php endforeach; ?>
 

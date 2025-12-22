@@ -21,6 +21,12 @@
             <page>form</page>
             <pos>3</pos>
         </link>
+
+        <link>
+            <text>Area riservata</text>
+            <page>area_riservata</page>
+            <pos>4</pos>
+        </link>
     </sidebar>
 
     <footer>© 2025 Leonardo Mosca</footer>
