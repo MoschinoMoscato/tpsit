@@ -30,14 +30,17 @@
     <form action="" method="post"> 
      <?php $xml_sx = simplexml_load_file("fatture.xml") or die("Errore caricamento XML"); // Apro il file XML ?>
 
+     <label for="codice">Codice articolo:</label><br>
+     <input type="number" id="codice" name="codice"><br>
+
      <label for="descrizione">Descrizione articolo:</label><br>
      <input type="text" id="descrizione" name="descrizione"><br>
 
      <label for="quanto">Quantità:</label><br>
-     <input type="text" id="quanto" name="quanto"><br>
+     <input type="number" id="quanto" name="quanto"><br>
 
      <label for="fname">Prezzo unitario €:</label><br>
-     <input type="text" id="price" name="price"><br>
+     <input type="number" step="0.01" id="price" name="price"><br>
 
      <input type="submit" name="add" value="Aggiungi articolo">
      <input type="reset" value="Reset campi">
@@ -58,17 +61,19 @@
    <?php
     if(isset($_POST["add"]))
     {
+     $codice = $_POST["codice"];
      $descrizione = $_POST["descrizione"];
      $prezzo_unitario = $_POST["price"];
      $quantita = $_POST["quanto"];
 
      // Controllo che i campi non siano stati lasciati vuoti e aggiungo l'articolo
-     if(!empty($descrizione) && is_numeric($quantita) && intval($quantita) == $quantita && $quantita > 0 && is_numeric($prezzo_unitario) && $prezzo_unitario >= 0) 
+     if(!empty($codice) && !empty($descrizione) && !empty($quantita) && !empty($prezzo_unitario))
      {
       $prezzo_totale = $quantita * $prezzo_unitario;
 
       $new_article = $xml_sx->Articoli->addChild("Articolo"); // Aggiunge un nuovo nodo <Articolo> all'XML e mi restituisce il riferimento a quel nodo in $new_article
       // Aggiungo i vari sotto-nodi
+      $new_article->addChild("Codice", $codice);
       $new_article->addChild("Descrizione", $descrizione);
       $new_article->addChild("Quantita", $quantita);
       $new_article->addChild("PrezzoUnitario", $prezzo_unitario);
@@ -103,6 +108,7 @@
 
 			<table class = "tabella">
 				<tr>
+					<th>Codice</th>
 					<th>Descrizione</th>
 					<th>Quantità</th>
 					<th>Prezzo unitario €</th>
@@ -111,6 +117,7 @@
 				
 				<?php foreach($xml_list->Articoli->Articolo as $art): ?>
 			 	<tr>
+			 		<td> <?php echo $art->Codice; ?> </td>
 			 		<td> <?php echo $art->Descrizione; ?> </td>
 						<td> <?php echo $art->Quantita; ?> </td>
 						<td> <?php echo $art->PrezzoUnitario; ?> </td>

@@ -17,18 +17,6 @@
     <Citta>Torino</Citta>
   </Cliente>
   <Articoli>
-    <Articolo>
-      <Descrizione>Prodotto A</Descrizione>
-      <Quantita>2</Quantita>
-      <PrezzoUnitario>100.00</PrezzoUnitario>
-      <PrezzoTotale>200.00</PrezzoTotale>
-    </Articolo>
-    <Articolo>
-      <Descrizione>Servizio B</Descrizione>
-      <Quantita>1</Quantita>
-      <PrezzoUnitario>50.00</PrezzoUnitario>
-      <PrezzoTotale>50.00</PrezzoTotale>
-    </Articolo>
   </Articoli>
   <Totali>
     <Imponibile>250.00</Imponibile>
