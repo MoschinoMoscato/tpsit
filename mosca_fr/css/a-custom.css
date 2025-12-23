@@ -3,6 +3,7 @@ html, body
  height: 100%;
  margin: 0;
  padding: 0;
+ overflow: hidden; /*Evita la comparsa della barra di scorrimento*/
 }
 
 .wrapper
@@ -13,7 +14,8 @@ html, body
 
  display:flex;
  flex-direction:column;
- min-height: 100%;
+ min-height: 0; /*Per evitare overflow*/
+ height: 100%;
 }
 
 .container_sidebar_content
@@ -24,6 +26,7 @@ html, body
  justify-content: flex-start;
  align-items: stretch;
  flex:1; /*Occupa tutto lo spazio rimanente*/
+ min-height: 0; /*Per evitare overflow*/
 }
 
 .header
@@ -36,19 +39,36 @@ html, body
 
 .sidebar
 {
+ display: flex;
  background-color:#6E4F2B;
  color:#F5EEDC;
- display: flex;
  width: 150px;
  flex-direction: column;
  border-right: 1px solid #D7C3A3;
  padding:10px;
+ gap: 20px;
+ padding-top: 20px;
 }
-.sidebar a { margin-bottom: 10px; }
+.sidebar a 
+{ 
+ width: 100%;
+ margin-bottom: 10px; 
+ text-decoration: none;
+ padding-bottom: 10px;
+}
 .sidebar a:link { color:#F5EEDC; }
 .sidebar a:visited { color:#F5EEDC; }
-.sidebar a:active { color:#F5EEDC; }
-.sidebar a:hover { color:#4CAF50; }
+.sidebar a.active 
+{ 
+ color:#F5EEDC;
+ border-bottom: 2px solid #00A86B; 
+ font-weight: bold;
+}
+.sidebar a:hover 
+{ 
+ color:#00A86B; 
+ border-bottom: 2px solid #00A86B;
+}
 
 .content
 {
@@ -59,6 +79,7 @@ html, body
  flex:1; /*Occupa tutto lo spazio rimanente*/
  padding:10px;
  flex-direction: column;
+ overflow-y:auto; /*Abilita la barra di scorrimento verticale se necessario*/
 }
 .content>.home
 {
@@ -113,9 +134,8 @@ html, body
 .content>.form>.tabella
 {
  margin-top: 30px;
- width:50%;
+ width:90%;
  font-size: 16px;
- border: 1px solid #4CAF50;
  border-collapse: collapse;
  padding: 10px;
  margin-left: auto;
@@ -123,14 +143,14 @@ html, body
 }
 .content>.form>.tabella th 
 {
- border: 1px solid #4CAF50;
+ border-bottom: 1px solid #4CAF50;
  padding: 6px 10px;
  text-align: left;
  background-color: #3B2A1A;
 }
 .content>.form>.tabella td 
 {
- border: 1px solid #4CAF50;
+ border-bottom: 1px solid #4CAF50;
  padding: 6px 10px;
 }
 

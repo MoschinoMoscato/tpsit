@@ -7,7 +7,9 @@
   
   foreach($site["text"] as $i => $value)
   {
-   echo '<p><a href="?page=' . $site["page"][$i] . '">' . $value . '</a></p>';
+   $active = ($_GET["page"] == $site["page"][$i]) ? 'active' : '';
+
+   echo '<a class = "' . $active . '" href="?page=' . $site["page"][$i] . '">' . $value . '</a>';
   }
  ?>
 
