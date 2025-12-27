@@ -42,7 +42,7 @@ html, body
  display: flex;
  background-color:#6E4F2B;
  color:#F5EEDC;
- width: 150px;
+ width: 200px;
  flex-direction: column;
  border-right: 1px solid #D7C3A3;
  padding:10px;
@@ -143,14 +143,13 @@ html, body
 }
 .content>.form>.tabella th 
 {
- border-bottom: 1px solid #4CAF50;
+ border-bottom: 1px solid #2F5D3A;
  padding: 6px 10px;
  text-align: left;
- background-color: #3B2A1A;
 }
 .content>.form>.tabella td 
 {
- border-bottom: 1px solid #4CAF50;
+ border-bottom: 1px solid #2F5D3A;
  padding: 6px 10px;
 }
 

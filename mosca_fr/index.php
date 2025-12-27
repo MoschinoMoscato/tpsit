@@ -1,14 +1,26 @@
 <?php
+ // Inizializzo la sessione
+ session_start();
+
+ define("BASE_PATH", __DIR__);
+
+ $fattura_corrente = "fatture/public.xml";
+
+ if(isset($_SESSION["logged"])) 
+ { 
+  $fattura_corrente = "fatture/" . $_SESSION["user"]["file_fattura"];
+ } 
+
  // Carico DOMDocument
  $xml_dom = new DOMDocument();
  $xml_dom->preserveWhiteSpace = false;
  $xml_dom->formatOutput = true; 
- $xml_dom->load("fatture.xml"); 
+ $xml_dom->load("$fattura_corrente"); 
 
  // Esportazione in JSON            validando prima l'XML contro lo schema XSD
  if(isset($_POST["export_json"]) && $xml_dom->schemaValidate("fatture.xsd"))
  {
-  $xml_json = simplexml_load_file("fatture.xml") or die("Errore caricamento XML"); // Apro il file XML
+  $xml_json = simplexml_load_file($fattura_corrente) or die("Errore caricamento XML"); // Apro il file XML
 
   $json = json_encode($xml_json, JSON_PRETTY_PRINT); // Converto in JSON con pretty print per la formattazione
 
