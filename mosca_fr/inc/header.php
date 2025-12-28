@@ -8,12 +8,12 @@
  <?php if (!isset($_SESSION["logged"])): ?>
   <form method="get">
    <input type="hidden" name="page" value="login">
-   <input type="submit" value="Login">
+   <input type="submit" value="Accedi">
   </form>
 
   <form method="get">
    <input type="hidden" name="page" value="signup">
-   <input type="submit" value="Signup">
+   <input type="submit" value="Registrati">
   </form>
  <?php endif; ?>
 </div>

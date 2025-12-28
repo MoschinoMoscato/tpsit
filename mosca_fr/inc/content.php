@@ -53,7 +53,6 @@
 
      <input type="submit" name="add" value="Aggiungi articolo">
      <input type="reset" value="Reset campi">
-     <input type="submit" name="reset_xml" value="Reset tabella">
     </form>
 
     <!-- Valido l'XML contro lo schema XSD -->
@@ -75,8 +74,24 @@
      $prezzo_unitario = $_POST["price"];
      $quantita = $_POST["quanto"];
 
+     $codice_esistente = false;
+
+     foreach($xml_sx->Articoli->Articolo as $art) 
+     {
+      if((string)$art->Codice === (string)$codice) 
+      {
+       $codice_esistente = true;
+       break;
+      }
+     }
+
+     if($codice_esistente) 
+     {
+      echo "<p style='color:red'>Codice articolo già esistente</p>";
+     }
+
      // Controllo che i campi non siano stati lasciati vuoti e aggiungo l'articolo
-     if(!empty($codice) && !empty($descrizione) && !empty($quantita) && !empty($prezzo_unitario))
+     if(!empty($codice) && !empty($descrizione) && !empty($quantita) && !empty($prezzo_unitario) && !$codice_esistente)
      {
       $prezzo_totale = $quantita * $prezzo_unitario;
 
@@ -95,20 +110,6 @@
       $xml_dom->save($fattura_corrente);
       header("Location: index.php?page=form");
      }
-    }
-
-    /* RESET TABELLA */
-    if(isset($_POST["reset_xml"])) 
-    {
-     // Cancello tutti gli Articolo
-     unset($xml_sx->Articoli->Articolo);
-
-     // Salvo l'XML vuoto
-     $xml_sx->asXML($fattura_corrente);
-
-     // Ricarico la pagina
-     header("Location: index.php?page=form");
-     exit;
     }
    ?>
    
