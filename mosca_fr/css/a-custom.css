@@ -84,7 +84,6 @@ html, body
  gap: 10px;
  text-decoration: none;
  color: inherit;
- margin-bottom: -100px;
 }
 
 .sidebar-avatar 
@@ -120,6 +119,7 @@ html, body
 .content>.home
 {
  display: flex;
+ flex-direction: column;
  flex:1;
  font-size: 30px;
  text-align: center;

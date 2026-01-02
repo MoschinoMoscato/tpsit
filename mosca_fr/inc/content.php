@@ -6,7 +6,12 @@
    <?php if (isset($_SESSION["logged"])): ?>
      <p>Welcome <?php echo $_SESSION["user"]["nome"] . " " . $_SESSION["user"]["cognome"]; ?></p>
    <?php else: ?>
-     <p title="Benvenuto nel sito di Leonardo Mosca">Welcome to Leonardo Mosca's site</p>
+     <p style="margin-bottom:20px;" title="Benvenuto nel sito di Leonardo Mosca">Welcome to Leonardo Mosca's site<br></p>
+   <?php endif; ?>
+
+   <!-- Messaggio di conferma eliminazione account -->
+   <?php if (isset($_GET["deleted"])): ?>
+    <p style="color:green">Account eliminato con successo</p>
    <?php endif; ?>
   </div>
  <?php endif; ?>
@@ -247,6 +252,7 @@
    <?php
     if(isset($_POST["signup"]))
     {
+     // Recupero e sanifico i dati del form
      $email = trim($_POST["email"]);
      $nome = trim($_POST["nome"]);
      $cognome = trim($_POST["cognome"]);
@@ -256,7 +262,7 @@
      // Controllo che i campi non siano vuoti e che le password coincidano
      if(!empty($email) && !empty($nome) && !empty($cognome) && !empty($password) && ($password === $conferma_password))
      {
-      $utenti = simplexml_load_file(BASE_PATH . "/utenti.xml") or die("Errore caricamento file utenti.xml");
+      $utenti = simplexml_load_file(BASE_PATH . "/utenti.xml") or die("Errore caricamento file utenti.xml");// Carico utenti.xml
 
       // Controllo che l'email non sia già registrata
       $esistente = false;
@@ -270,10 +276,11 @@
        }
       }
 
-      if(!$esistente) 
+      if(!$esistente)// Se l'email non è già registrata 
       {
        $hashed_password = password_hash($password, PASSWORD_DEFAULT);// Hash della password
 
+       // Aggiungo il nuovo utente all'XML
        $new_user = $utenti->addChild("Utente");
        $new_user->addChild("Email", $email);
        $new_user->addChild("Nome", $nome);
@@ -298,7 +305,7 @@
        $dom->save(BASE_PATH . "/utenti.xml");
 
        // Copio il file fattura di default
-       if(!copy(BASE_PATH . "/fatture/default.xml", BASE_PATH . "/fatture/" . $file_fattura)) 
+       if(!copy(BASE_PATH . "/fatture/default.xml", BASE_PATH . "/fatture/" . $file_fattura))// Se la copia fallisce
        {
         die("COPIA default.xml FALLITA");
        }
@@ -333,5 +340,125 @@
 
   </div>
  <?php endif; ?> 
+
+ <!----------------------------------------------------------------- Se la page è area_riservata ----------------------------------------------------------------> 
+ <?php if($_GET["page"] == "area_riservata"): ?>
+  <div class="area-riservata">
+   <?php
+    // Controllo se l'utente è loggato, altrimenti lo reindirizzo al login
+    if(!isset($_SESSION["logged"]) || $_SESSION["logged"] !== true) 
+    {
+     header("Location: index.php?page=login");
+     exit;
+    }
+   ?>
+
+  <!-- Mostro i dati dell'utente loggato -->
+  <h2>Area riservata</h2>
+
+  <p><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION["user"]["email"]); ?></p>
+  <p><strong>Nome:</strong> <?php echo htmlspecialchars($_SESSION["user"]["nome"]); ?></p>
+  <p><strong>Cognome:</strong> <?php echo htmlspecialchars($_SESSION["user"]["cognome"]); ?></p>
+
+  <!-- Form per il bottone logout -->
+  <form method="post" style="margin-top:20px">
+   <input type="submit" name="logout" value="Logout">
+  </form>
+
+  <!-- Form per il bottone eliminazione account -->
+  <form method="post" style="margin-top:15px">
+   <input type="submit" name="ask_delete" value="Elimina account">
+  </form>
+
+  <?php if(isset($_POST["ask_delete"]) || isset($_POST["confirm_delete"])): ?>
+   <form method="post" style="margin-top:15px">
+    <input type="hidden" name="ask_delete" value="1"> <!--Mantengo lo stato di richiesta eliminazione -->
+
+    <label>Conferma password</label><br>
+    <input type="password" name="delete_password"><br>
+
+    <input type="submit" name="confirm_delete" value="Conferma eliminazione">
+   </form>
+  <?php endif; ?>
+
+ </div>
+ <?php endif; ?>
+
+ <!---------------------------------------------------------------- Logout ---------------------------------------------------------------->
+ <?php
+ if(isset($_POST["logout"])) 
+ {
+  session_unset(); // Rimuovo tutte le variabili di sessione
+  session_destroy(); // Distruggo la sessione
+  header("Location: index.php?page=home"); // Reindirizzo alla home
+  exit;
+ }
+?>
+
+<!---------------------------------------------------------------- Eliminazione account ---------------------------------------------------------------->
+ <?php
+  if(isset($_POST["confirm_delete"])) 
+  {
+   $password_input = $_POST["delete_password"] ?? "";// Recupero la password inserita
+
+   if(empty($password_input)) 
+   {
+    echo "<p style='color:red'>Inserisci la password per confermare</p>";
+   } 
+   
+   else 
+   {
+    // Recupero email e file fattura dell'utente loggato
+    $email = $_SESSION["user"]["email"];
+    $file_fattura = BASE_PATH . "/fatture/" . $_SESSION["user"]["file_fattura"];
+
+    $utenti = simplexml_load_file(BASE_PATH . "/utenti.xml") or die("Errore caricamento utenti.xml");// Carico utenti.xml
+
+    $index = 0;// Indice per tenere traccia della posizione dell'utente nell'XML
+
+    foreach($utenti->Utente as $u) 
+    {
+     if((string)$u->Email === $email) 
+     {
+      // Se la password inserita è errata
+      if(!password_verify($password_input, (string)$u->Password)) 
+      {
+       echo "<p style='color:red'>Password errata</p>";
+       $keep_delete_open = true;
+       break; // Esco dal ciclo senza eliminare l'utente
+      }
+
+      unset($utenti->Utente[$index]);// Rimuovo l'utente dall'XML se la password è corretta
+      $delete_ok = true;
+      break;
+     }
+     $index++;
+    }
+
+    if(!empty($delete_ok))// Se l'eliminazione è andata a buon fine
+    {
+     $dom = new DOMDocument("1.0", "UTF-8");// Creo un nuovo DOMDocument
+     $dom->preserveWhiteSpace = false;// Rimuovo gli spazi bianchi inutili
+     $dom->formatOutput = true;// Indento il file
+     $dom->loadXML($utenti->asXML());// Carico l'XML da salvare
+     $dom->save(BASE_PATH . "/utenti.xml");// Salvo le modifiche a utenti.xml
+
+     // Elimino la fattura legata all'utente
+     if(file_exists($file_fattura)) 
+     {
+      unlink($file_fattura);
+     }
+
+     // Distruggo la sessione
+     session_unset();
+     session_destroy();
+
+     // Redirect con conferma
+     header("Location: index.php?page=home&deleted=1");
+     exit;
+    }
+   }
+  }
+ ?>
 
 </div>
