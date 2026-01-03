@@ -29,14 +29,59 @@ html, body
  min-height: 0; /*Per evitare overflow*/
 }
 
+/* ============================================================================================
+                                             HEADER
+   ============================================================================================ */
 .header
 {
  background-color:#3B2A1A;
  color:#F5EEDC;
  border-bottom: 1px solid #D7C3A3;
  padding:10px;
+
+ display: flex;
+ align-items: center;
+ justify-content: space-between; /* Spazio tra logo e bottoni */
+ gap: 10px;
 }
 
+.header-right 
+{
+ display: flex;
+ gap: 10px;
+}
+
+/* ============================================
+        BOTTONI HEADER (login / signup)
+   ============================================ */
+
+.header form 
+{
+ margin: 0;
+}
+
+.header input[type="submit"] 
+{
+ background-color: #F5EEDC; 
+ color: #3B2A1A;
+ border: 1px solid #D7C3A3;
+ padding: 6px 14px;
+ border-radius: 6px;
+ font-weight: 600;
+ cursor: pointer;
+}
+
+/* hover */
+.header input[type="submit"]:hover 
+{
+ background-color: #00A86B;
+ color: #F5EEDC;
+ border-color: #00A86B;
+}
+
+/* ============================================================================================
+                                             SIDEBAR
+   ============================================================================================ */
 .sidebar
 {
  display: flex;
@@ -105,6 +150,9 @@ html, body
  font-weight: 600;
 }
 
+/* ============================================================================================
+                                             CONTENT
+   ============================================================================================ */
 .content
 {
  display: flex;
@@ -116,6 +164,7 @@ html, body
  flex-direction: column;
  overflow-y:auto; /*Abilita la barra di scorrimento verticale se necessario*/
 }
+
 .content>.home
 {
  display: flex;
@@ -126,6 +175,7 @@ html, body
  justify-content: center;
  align-items: center;
 }
+
 .content>iframe
 { 
 	width:100%;
@@ -133,6 +183,7 @@ html, body
  border:none; 
  flex:1;
 }
+
 .content>.form
 {
  display: flex;
@@ -194,10 +245,72 @@ html, body
  font-size: 14px;
 }
 
+/* ============================================================================================
+                                             FOOTER
+   ============================================================================================ */
 .footer
 {
  background-color:#3B2A1A;
  color:#F5EEDC;
  text-align: center;
  border-top: 1px solid #D7C3A3;
+}
+
+/* ============================================================================================
+                                             BOTTONI
+   ============================================================================================ */
+
+button, input[type="submit"], input[type="reset"] 
+{
+ background-color: #3B2A1A;      /* stesso dell'header/footer */
+ color: #F5EEDC;
+ border: 1px solid #D7C3A3;
+ border-radius: 6px;
+
+ padding: 8px 16px;
+ font-family: "Lato", sans-serif;
+ font-size: 14px;
+ font-weight: 600;
+
+ cursor: pointer;
+ transition: 
+  background-color 0.2s ease,
+  color 0.2s ease,
+  border-color 0.2s ease,
+  transform 0.05s ease;
+}
+
+/* hover */
+button:hover, input[type="submit"]:hover, input[type="reset"]:hover 
+{
+ background-color: #6E4F2B;      /* sidebar */
+ color: #00A86B;                 /* accento verde */
+ border-color: #00A86B;
+}
+
+/* click */
+button:active, input[type="submit"]:active, input[type="reset"]:active 
+{
+ transform: scale(0.97);
+}
+
+/* focus accessibile */
+button:focus-visible, input[type="submit"]:focus-visible,input[type="reset"]:focus-visible 
+{
+ outline: 2px solid #00A86B;
+ outline-offset: 2px;
+}
+
+/* bottone per azioni pericolose (elimina account) */
+input[name="ask_delete"], input[name="confirm_delete"] 
+{
+ background-color: #7A1E1E;
+ border-color: #C96A6A;
+}
+
+input[name="ask_delete"]:hover, input[name="confirm_delete"]:hover 
+{
+ background-color: #A12A2A;
+ color: #F5EEDC;
+ border-color: #F5EEDC;
 }
