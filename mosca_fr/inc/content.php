@@ -41,23 +41,35 @@
     </div>
 
     <!-- Form per l'inserimento di un nuovo articolo -->
-    <form action="" method="post"> 
+    <form action="" method="post" class="article-form"> 
      <?php $xml_sx = simplexml_load_file($fattura_corrente) or die("Errore caricamento XML"); // Apro il file XML ?>
 
-     <label for="codice">Codice articolo:</label><br>
-     <input type="number" id="codice" name="codice"><br>
+     <div class="form-field">
+      <label for="codice">Codice articolo:</label>
+      <input type="number" id="codice" name="codice"><br>
+     </div>
 
-     <label for="descrizione">Descrizione articolo:</label><br>
-     <input type="text" id="descrizione" name="descrizione"><br>
+     <div class="form-field">
+      <label for="descrizione">Descrizione articolo:</label>
+      <input type="text" id="descrizione" name="descrizione"><br>
+     </div>
 
-     <label for="quanto">Quantità:</label><br>
-     <input type="number" id="quanto" name="quanto"><br>
+     <div class="form-row">
+      <div class="form-field">
+       <label for="quanto">Quantità:</label>
+       <input type="number" id="quanto" name="quanto"><br>
+      </div>
 
-     <label for="fname">Prezzo unitario:</label><br>
-     <input type="number" step="0.01" id="price" name="price"><br>
+      <div class="form-field">
+       <label for="fname">Prezzo unitario:</label>
+       <input type="number" step="0.01" id="price" name="price"><br>
+      </div>
+     </div>
 
-     <input type="submit" name="add" value="Aggiungi articolo">
-     <input type="reset" value="Reset campi">
+     <div class="form-actions">
+      <input type="submit" name="add" value="Aggiungi articolo">
+      <input type="reset" value="Reset campi">
+     </div>
     </form>
 
     <!-- Valido l'XML contro lo schema XSD -->
@@ -173,13 +185,15 @@
   <!--- Form di login --->
   <div class="login">
    <form method="post"> 
-    <label for="email">e-mail:</label><br>
+    <label for="email">Email:</label>
     <input type="text" id="email" name="email"><br>
 
-    <label for="password">Password:</label><br>
+    <label for="password">Password:</label>
     <input type="password" id="password" name="password"><br>
 
     <input type="submit" name="login" value="Accedi">
+
+    <p>Non hai un account? <a href="index.php?page=signup">Registrati</a></p>
    </form>
 
    <?php
@@ -231,19 +245,19 @@
   <!--- Form di registrazione --->
   <div class="signup">
    <form method="post"> 
-    <label for="email">e-mail:</label><br>
+    <label for="email">Email:</label>
     <input type="text" id="email" name="email"><br>
 
-    <label for="nome">Nome:</label><br>
+    <label for="nome">Nome:</label>
     <input type="text" id="nome" name="nome"><br>
 
-    <label for="cognome">Cognome:</label><br>
+    <label for="cognome">Cognome:</label>
     <input type="text" id="cognome" name="cognome"><br>
 
-    <label for="password">Password:</label><br>
+    <label for="password">Password:</label>
     <input type="password" id="password" name="password"><br>
 
-    <label for="password">Conferfma password:</label><br>
+    <label for="password">Conferfma password:</label>
     <input type="password" id="conferma_password" name="conferma_password"><br>
 
     <input type="submit" name="signup" value="Registrati">
@@ -353,23 +367,30 @@
     }
    ?>
 
-  <!-- Mostro i dati dell'utente loggato -->
-  <h2>Area riservata</h2>
+  <div class="user-box">
+   <!-- Mostro i dati dell'utente loggato -->
+   <h2>Area riservata</h2>
 
-  <p><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION["user"]["email"]); ?></p>
-  <p><strong>Nome:</strong> <?php echo htmlspecialchars($_SESSION["user"]["nome"]); ?></p>
-  <p><strong>Cognome:</strong> <?php echo htmlspecialchars($_SESSION["user"]["cognome"]); ?></p>
+   <div class="user-info">
+    <p><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION["user"]["email"]); ?></p>
+    <p><strong>Nome:</strong> <?php echo htmlspecialchars($_SESSION["user"]["nome"]); ?></p>
+    <p><strong>Cognome:</strong> <?php echo htmlspecialchars($_SESSION["user"]["cognome"]); ?></p>
+   </div>
 
-  <!-- Form per il bottone logout -->
-  <form method="post" style="margin-top:20px">
-   <input type="submit" name="logout" value="Logout">
-  </form>
+   <div class="user-actions">
+    <!-- Form per il bottone logout -->
+    <form method="post" style="margin-top:20px">
+     <input type="submit" name="logout" value="Logout">
+    </form>
 
-  <!-- Form per il bottone eliminazione account -->
-  <form method="post" style="margin-top:15px">
-   <input type="submit" name="ask_delete" value="Elimina account">
-  </form>
+    <!-- Form per il bottone eliminazione account -->
+    <form method="post" style="margin-top:15px">
+     <input type="submit" name="ask_delete" value="Elimina account">
+    </form>
+   </div>
+  </div>
 
+  <!-- Form di conferma eliminazione account -->
   <?php if(isset($_POST["ask_delete"]) || isset($_POST["confirm_delete"])): ?>
    <form method="post" style="margin-top:15px">
     <input type="hidden" name="ask_delete" value="1"> <!--Mantengo lo stato di richiesta eliminazione -->
