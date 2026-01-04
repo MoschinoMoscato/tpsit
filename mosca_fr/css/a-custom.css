@@ -417,7 +417,6 @@ html, body
    ============================================== */
 .user-box
 {
- background-color: #F5EEDC;
  border: 1px solid #D7C3A3;
  border-radius: 8px;
 
@@ -435,6 +434,7 @@ html, body
  margin: 0;
  font-size: 22px;
  color: #3B2A1A;
+ align-self: center;
 }
 
 .user-info p
@@ -446,8 +446,50 @@ html, body
 .user-actions
 {
  display: flex;
- justify-content: space-between;
  gap: 10px;
+ flex-direction: column;
+}
+
+.user-form 
+{
+ width: 100%;
+ display: flex;
+ flex-direction: column;
+ gap: 12px;
+}
+
+.user-form .form-field 
+{
+ display: flex;
+ flex-direction: column;
+ gap: 4px;
+ width: 100%;
+}
+
+.user-form label 
+{
+ font-weight: 600;
+ font-size: 15px;
+}
+
+.user-form input 
+{
+ padding: 8px;
+ font-size: 15px;
+ border-radius: 6px;
+ border: 1px solid #D7C3A3;
+}
+
+.user-form input:disabled 
+{
+ background: #eee;
+ color: #666;
+}
+
+.user-form .form-actions 
+{
+ margin-top: 10px;
+ width: 100%;
 }
 
 /* ============================================================================================

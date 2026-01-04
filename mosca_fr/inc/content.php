@@ -368,28 +368,81 @@
    ?>
 
   <div class="user-box">
-   <!-- Mostro i dati dell'utente loggato -->
+   <!-- Form di modifica profilo -->
    <h2>Area riservata</h2>
 
-   <div class="user-info">
-    <p><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION["user"]["email"]); ?></p>
-    <p><strong>Nome:</strong> <?php echo htmlspecialchars($_SESSION["user"]["nome"]); ?></p>
-    <p><strong>Cognome:</strong> <?php echo htmlspecialchars($_SESSION["user"]["cognome"]); ?></p>
-   </div>
+   <form method="post" class="user-form">
+
+    <div class="form-field">
+     <label>Email</label>
+     <input type="email" value="<?= htmlspecialchars($_SESSION["user"]["email"]) ?>" disabled>
+    </div>
+
+    <div class="form-field">
+     <label>Nome</label>
+     <input type="text" name="nome" value="<?= htmlspecialchars($_SESSION["user"]["nome"]) ?>" required>
+    </div>
+
+    <div class="form-field">
+     <label>Cognome</label>
+     <input type="text" name="cognome" value="<?= htmlspecialchars($_SESSION["user"]["cognome"]) ?>" required>
+    </div>
+
+    <div class="form-actions">
+     <input type="submit" name="save_changes" value="Salva modifiche">
+    </div>
+
+   </form>
 
    <div class="user-actions">
-    <!-- Form per il bottone logout -->
-    <form method="post" style="margin-top:20px">
+    <form method="post">
      <input type="submit" name="logout" value="Logout">
     </form>
 
-    <!-- Form per il bottone eliminazione account -->
-    <form method="post" style="margin-top:15px">
+    <form method="post">
      <input type="submit" name="ask_delete" value="Elimina account">
     </form>
    </div>
   </div>
 
+  <!--- Se l'utente ha cliccato su salva modifiche --->
+  <?php
+   if(isset($_POST["save_changes"])) 
+   {
+    // Recupero e sanifico i dati del form
+    $nome = trim($_POST["nome"]);
+    $cognome = trim($_POST["cognome"]);
+    $email = $_SESSION["user"]["email"];
+
+    $utenti = simplexml_load_file(BASE_PATH."/utenti.xml");// Carico utenti.xml
+
+    // Aggiorno i dati nell'XML
+    foreach($utenti->Utente as $u) 
+    {
+     if((string)$u->Email === $email) 
+     {
+      $u->Nome = $nome;
+      $u->Cognome = $cognome;
+      break;
+     }
+    }
+
+    // Salvo le modifiche a utenti.xml
+    $dom = new DOMDocument("1.0", "UTF-8");
+    $dom->preserveWhiteSpace = false;
+    $dom->formatOutput = true;
+    $dom->loadXML($utenti->asXML());
+    $dom->save(BASE_PATH."/utenti.xml");
+
+    // Aggiorno i dati nella sessione
+    $_SESSION["user"]["nome"] = $nome;
+    $_SESSION["user"]["cognome"] = $cognome;
+
+    header("Location: index.php?page=area_riservata&saved=1");
+    exit;
+   }
+  ?>
+  
   <!-- Form di conferma eliminazione account -->
   <?php if(isset($_POST["ask_delete"]) || isset($_POST["confirm_delete"])): ?>
    <form method="post" style="margin-top:15px">
