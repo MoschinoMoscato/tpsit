@@ -87,7 +87,7 @@ html, body
  display: flex;
  background-color:#6E4F2B;
  color:#F5EEDC;
- width: 200px;
+ width: 240px;
  flex-direction: column;
  border-right: 1px solid #D7C3A3;
  padding:10px;
@@ -347,7 +347,7 @@ html, body
 
  display: flex;
  flex-direction: column;
- gap: 10px;
+ gap: 6px;
 }
 
 /* label */
