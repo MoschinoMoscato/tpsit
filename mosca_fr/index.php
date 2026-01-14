@@ -2,16 +2,17 @@
  // Inizializzo la sessione
  session_start();
 
- define("BASE_PATH", __DIR__);
+ define("BASE_PATH", __DIR__);// Definisco il path base
 
- $fattura_corrente = "fatture/public.xml";
+ $fattura_corrente = "fatture/public.xml";// File di default per la fattura
 
+ // Se l'utente è loggato, imposto il file della sua fattura
  if(isset($_SESSION["logged"])) 
  { 
   $fattura_corrente = "fatture/" . $_SESSION["user"]["file_fattura"];
  } 
 
- // Carico DOMDocument
+ // Carico DOMDocument 
  $xml_dom = new DOMDocument();
  $xml_dom->preserveWhiteSpace = false;
  $xml_dom->formatOutput = true; 
@@ -20,11 +21,11 @@
  // Esportazione in JSON            validando prima l'XML contro lo schema XSD
  if(isset($_POST["export_json"]) && $xml_dom->schemaValidate("fatture.xsd"))
  {
-  $xml_json = simplexml_load_file($fattura_corrente) or die("Errore caricamento XML"); // Apro il file XML
+  $xml_json = simplexml_load_file($fattura_corrente) or die("Errore caricamento XML");// Apro il file XML
 
-  $json = json_encode($xml_json, JSON_PRETTY_PRINT); // Converto in JSON con pretty print per la formattazione
+  $json = json_encode($xml_json, JSON_PRETTY_PRINT);// Converto in JSON con pretty print per la formattazione sulla variabile $json che conterrà il file
 
-  // Header HTTP per forzare il download
+  // Header HTTP per far partire il download
   header("Content-Type: application/json");
   header("Content-Disposition: attachment; filename=fattura.json");
 
