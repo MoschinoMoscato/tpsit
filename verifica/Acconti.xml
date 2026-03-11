@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clienti>
+
+    <cliente>
+        <codiceCliente>100004</codiceCliente>
+        <descrizioneCliente>Cliente Delta SRL</descrizioneCliente>
+        <acconto>420.30</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100001</codiceCliente>
+        <descrizioneCliente>Cliente Alfa SRL</descrizioneCliente>
+        <acconto>150.00</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100007</codiceCliente>
+        <descrizioneCliente>Cliente Eta SNC</descrizioneCliente>
+        <acconto>710.45</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100003</codiceCliente>
+        <descrizioneCliente>Cliente Gamma SNC</descrizioneCliente>
+        <acconto>305.10</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100001</codiceCliente>
+        <descrizioneCliente>Cliente Alfa SRL</descrizioneCliente>
+        <acconto>180.25</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100010</codiceCliente>
+        <descrizioneCliente>Cliente Kappa SNC</descrizioneCliente>
+        <acconto>560.90</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100005</codiceCliente>
+        <descrizioneCliente>Cliente Epsilon SPA</descrizioneCliente>
+        <acconto>505.50</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100004</codiceCliente>
+        <descrizioneCliente>Cliente Delta SRL</descrizioneCliente>
+        <acconto>460.80</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100012</codiceCliente>
+        <descrizioneCliente>Cliente Mu SRL</descrizioneCliente>
+        <acconto>655.65</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100002</codiceCliente>
+        <descrizioneCliente>Cliente Beta SPA</descrizioneCliente>
+        <acconto>225.40</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100007</codiceCliente>
+        <descrizioneCliente>Cliente Eta SNC</descrizioneCliente>
+        <acconto>745.15</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100009</codiceCliente>
+        <descrizioneCliente>Cliente Iota SRL</descrizioneCliente>
+        <acconto>515.95</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100002</codiceCliente>
+        <descrizioneCliente>Cliente Beta SPA</descrizioneCliente>
+        <acconto>260.75</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100015</codiceCliente>
+        <descrizioneCliente>Cliente Omicron SRL</descrizioneCliente>
+        <acconto>810.30</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100006</codiceCliente>
+        <descrizioneCliente>Cliente Zeta SRL</descrizioneCliente>
+        <acconto>635.20</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100004</codiceCliente>
+        <descrizioneCliente>Cliente Delta SRL</descrizioneCliente>
+        <acconto>420.30</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100001</codiceCliente>
+        <descrizioneCliente>Cliente Alfa SRL</descrizioneCliente>
+        <acconto>150.00</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100007</codiceCliente>
+        <descrizioneCliente>Cliente Eta SNC</descrizioneCliente>
+        <acconto>710.45</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100003</codiceCliente>
+        <descrizioneCliente>Cliente Gamma SNC</descrizioneCliente>
+        <acconto>305.10</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100001</codiceCliente>
+        <descrizioneCliente>Cliente Alfa SRL</descrizioneCliente>
+        <acconto>180.25</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100010</codiceCliente>
+        <descrizioneCliente>Cliente Kappa SNC</descrizioneCliente>
+        <acconto>560.90</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100005</codiceCliente>
+        <descrizioneCliente>Cliente Epsilon SPA</descrizioneCliente>
+        <acconto>505.50</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100004</codiceCliente>
+        <descrizioneCliente>Cliente Delta SRL</descrizioneCliente>
+        <acconto>460.80</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100012</codiceCliente>
+        <descrizioneCliente>Cliente Mu SRL</descrizioneCliente>
+        <acconto>655.65</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100002</codiceCliente>
+        <descrizioneCliente>Cliente Beta SPA</descrizioneCliente>
+        <acconto>225.40</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100007</codiceCliente>
+        <descrizioneCliente>Cliente Eta SNC</descrizioneCliente>
+        <acconto>745.15</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100009</codiceCliente>
+        <descrizioneCliente>Cliente Iota SRL</descrizioneCliente>
+        <acconto>515.95</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100002</codiceCliente>
+        <descrizioneCliente>Cliente Beta SPA</descrizioneCliente>
+        <acconto>260.75</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100015</codiceCliente>
+        <descrizioneCliente>Cliente Omicron SRL</descrizioneCliente>
+        <acconto>810.30</acconto>
+    </cliente>
+
+    <cliente>
+        <codiceCliente>100006</codiceCliente>
+        <descrizioneCliente>Cliente Zeta SRL</descrizioneCliente>
+        <acconto>635.20</acconto>
+    </cliente>
+
+</clienti>

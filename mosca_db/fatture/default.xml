@@ -1,0 +1,33 @@
+<FatturaXML>
+  <Intestazione>
+    <NumeroFattura>12345</NumeroFattura>
+    <DataFattura>2025-10-15</DataFattura>
+    <DataScadenza>2025-11-14</DataScadenza>
+  </Intestazione>
+  <Venditore>
+    <RagioneSociale>Azienda Emettitrice srl</RagioneSociale>
+    <PartitaIVA>01234567890</PartitaIVA>
+    <Indirizzo>Via Roma, 1</Indirizzo>
+    <Citta>Milano</Citta>
+  </Venditore>
+  <Cliente>
+    <RagioneSociale>Azienda Ricevente spa</RagioneSociale>
+    <PartitaIVA>98765432109</PartitaIVA>
+    <Indirizzo>Corso Italia, 5</Indirizzo>
+    <Citta>Torino</Citta>
+  </Cliente>
+   
+  <Articoli>
+    
+  </Articoli>
+
+  <Totali>
+    <Imponibile>250.00</Imponibile>
+    <IVA>55.00</IVA>
+    <Totale>305.00</Totale>
+  </Totali>
+  <DettagliPagamento>
+    <Metodo>Bonifico Bancario</Metodo>
+    <IBAN>IT99Z9999999999999999999999</IBAN>
+  </DettagliPagamento>
+</FatturaXML>

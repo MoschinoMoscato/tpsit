@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="FatturaXML">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Intestazione">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="NumeroFattura" type="xs:unsignedShort" />
+              <xs:element name="DataFattura" type="xs:date" />
+              <xs:element name="DataScadenza" type="xs:date" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Venditore">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="RagioneSociale" type="xs:string" />
+              <xs:element name="PartitaIVA" type="xs:unsignedInt" />
+              <xs:element name="Indirizzo" type="xs:string" />
+              <xs:element name="Citta" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Cliente">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="RagioneSociale" type="xs:string" />
+              <xs:element name="PartitaIVA" type="xs:unsignedLong" />
+              <xs:element name="Indirizzo" type="xs:string" />
+              <xs:element name="Citta" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Articoli">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="Articolo">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Codice" type="xs:unsignedInt" />
+                    <xs:element name="Descrizione" type="xs:string" />
+                    <xs:element name="Quantita" type="xs:unsignedInt" />
+                    <xs:element name="PrezzoUnitario" type="xs:decimal" />
+                    <xs:element name="PrezzoTotale" type="xs:decimal" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Totali">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Imponibile" type="xs:decimal" />
+              <xs:element name="IVA" type="xs:decimal" />
+              <xs:element name="Totale" type="xs:decimal" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DettagliPagamento">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Metodo" type="xs:string" />
+              <xs:element name="IBAN" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
