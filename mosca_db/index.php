@@ -6,11 +6,29 @@
 
  $fattura_corrente = "fatture/public.xml";// File di default per la fattura
 
+ // Connessione DB
+ $servername = "185.6.242.121";
+ $username = "inb5";
+ $password = "Capule6^";
+ $dbname = "inb5_mosca";
+ $port = "8095";
+
+ try 
+ {
+  $conn = new PDO("mysql:host=$servername; port=$port; dbname=$dbname; charset=utf8mb4", $username, $password);
+  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+ } 
+
+ catch(PDOException $e) 
+ {
+  die("Connection failed: " . $e->getMessage());
+ }
+
  // Se l'utente è loggato, imposto il file della sua fattura
  if(isset($_SESSION["logged"])) 
  { 
   $fattura_corrente = "fatture/" . $_SESSION["user"]["file_fattura"];
- } 
+ }
 
  // Carico DOMDocument 
  $xml_dom = new DOMDocument();

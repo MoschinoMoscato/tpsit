@@ -1,100 +1,106 @@
-<?php
- // Se l'utente è già loggato, lo reindirizzo alla home
- if(isset($_SESSION["logged"])) 
- {
-  header("Location: index.php?page=home");
-  exit;
- }
-?>
-
-<!--- Form di registrazione --->
-<div class="signup">
- <form method="post"> 
-  <label for="email">Email:</label>
-  <input type="text" id="email" name="email"><br>
-
-  <label for="nome">Nome:</label>
-  <input type="text" id="nome" name="nome"><br>
-
-  <label for="cognome">Cognome:</label>
-  <input type="text" id="cognome" name="cognome"><br>
-
-  <label for="password">Password:</label>
-  <input type="password" id="password" name="password"><br>
-
-  <label for="password">Conferfma password:</label>
-  <input type="password" id="conferma_password" name="conferma_password"><br>
-
-  <input type="submit" name="signup" value="Registrati">
- </form>
-
+<?php if($_GET["page"] == "signup"){ ?>
  <?php
-  if(isset($_POST["signup"]))
+  // Se l'utente è già loggato, lo reindirizzo alla home
+  if(isset($_SESSION["logged"])) 
   {
-   $email = trim($_POST["email"]);
-   $nome = trim($_POST["nome"]);
-   $cognome = trim($_POST["cognome"]);
-   $password = $_POST["password"];
-   $conferma_password = $_POST["conferma_password"];
+   header("Location: index.php?page=home");
+   exit;
+  }
+ ?>
 
-   if($email && $nome && $cognome && $password && $password === $conferma_password) 
+ <!--- Form di registrazione --->
+ <div class="signup">
+  <form method="post"> 
+   <label for="email">Email:</label>
+   <input type="text" id="email" name="email"><br>
+
+   <label for="nome">Nome:</label>
+   <input type="text" id="nome" name="nome"><br>
+
+   <label for="cognome">Cognome:</label>
+   <input type="text" id="cognome" name="cognome"><br>
+
+   <label for="password">Password:</label>
+   <input type="password" id="password" name="password"><br>
+
+   <label for="password">Conferfma password:</label>
+   <input type="password" id="conferma_password" name="conferma_password"><br>
+
+   <input type="submit" name="signup" value="Registrati">
+  </form>
+
+  <?php
+   if(isset($_POST["signup"]))
    {
-    // Controllo se l'email è già esistente
-    $stmt = $conn->prepare("SELECT id FROM utenti WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $stmt->store_result();
+    // Recupero e sanifico i dati del form
+    $email = trim($_POST["email"]);
+    $nome = trim($_POST["nome"]);
+    $cognome = trim($_POST["cognome"]);
+    $password = $_POST["password"];
+    $conferma_password = $_POST["conferma_password"];
 
-    if($stmt->num_rows > 0) 
+    // Controllo che i campi non siano vuoti e che le password coincidano
+    if(!empty($email) && !empty($nome) && !empty($cognome) && !empty($password) && ($password === $conferma_password))
     {
-     echo "<p style='color:red'>Email già registrata</p>";
-    } 
-    
-    else 
-    {
-     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+     // Controllo che l'email non sia già registrata nel database
+     $stmt = $conn->prepare("SELECT id FROM utenti_sito WHERE email = ?");
+     $stmt->execute([$email]);
 
-     // Genera file fattura
-     $file_fattura = strtolower($email);
-     $file_fattura = str_replace(['@', '.'], '_', $file_fattura);
-     $file_fattura .= ".xml";
+     $esistente = $stmt->fetch();// Se non trova nulla $esistente vale falso, altrimenti contiene la riga trovata
 
-     // Colore random
-     $colore = sprintf('#%02X%02X%02X', rand(60,200), rand(60,200), rand(60,200));
+     if(!$esistente)// Se l'email non è già registrata 
+     {
+      $hashed_password = password_hash($password, PASSWORD_DEFAULT);// Hash della password
 
-     // insert
-     $stmt = $conn->prepare
-     (
-      "INSERT INTO utenti (email, nome, cognome, password, colore, file_fattura) VALUES (?, ?, ?, ?, ?, ?)"
-     );
-     $stmt->bind_param("ssssss", $email, $nome, $cognome, $hashed_password, $colore, $file_fattura
-     );
-     $stmt->execute();
+      // Sanificazione email per creare il file fattura
+      $file_fattura = strtolower($email);
+      $file_fattura = str_replace(['@', '.'], '_', $file_fattura);
+      $file_fattura .= ".xml";
 
-     // Copia fattura default
-     copy(BASE_PATH . "/fatture/default.xml", BASE_PATH . "/fatture/" . $file_fattura);
+      // Generazione colore profilo casuale per sfondo immagine utente
+      $colore = sprintf('#%02X%02X%02X', rand(60,200), rand(60,200), rand(60,200));
 
-     // Login automatico
-     $_SESSION["logged"] = true;
-     $_SESSION["user"] = 
-     [
+      // Inserimento del nuovo utente nel database 
+      $stmt = $conn->prepare
+      (
+       "INSERT INTO utenti_sito (email, nome, cognome, password_hash, colore, file_fattura) VALUES (?, ?, ?, ?, ?, ?)"
+      );
+
+      $stmt->execute([$email, $nome, $cognome, $hashed_password, $colore, $file_fattura]);
+
+      // Copio il file fattura di default
+      if(!copy(BASE_PATH . "/fatture/default.xml", BASE_PATH . "/fatture/" . $file_fattura))// Se la copia fallisce
+      {
+       die("COPIA default.xml FALLITA");
+      }
+
+      // Login automatico dopo la registrazione
+      $_SESSION["logged"] = true;
+      $_SESSION["user"] = 
+      [
       "email" => $email,
       "nome" => $nome,
       "cognome" => $cognome,
       "colore" => $colore,
       "file_fattura" => $file_fattura
-     ];
+      ];
 
-     header("Location: index.php?page=home");
-     exit;
+      // Reindirazzamento alla home
+      header("Location: index.php?page=home");
+
+      exit;
+     } 
+     else 
+     {
+      echo "<p style='color:red'>Email già registrata</p>";
+     }
+    } 
+    else 
+    {
+     echo "<p style='color:red'>Compila tutti i campi correttamente</p>";
     }
-   } 
-   
-   else 
-   {
-    echo "<p style='color:red'>Compila correttamente i campi</p>";
    }
-  }
- ?>
+  ?>
 
-</div>
+ </div>
+<?php } ?> 

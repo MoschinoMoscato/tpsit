@@ -1,50 +1,41 @@
-<?php
- // Se l'utente è già loggato, lo reindirizzo alla home
- if (isset($_SESSION["logged"])) 
- {
-  header("Location: index.php?page=home");
-  exit;
- }
-?>
-
-<!--- Form di login --->
-<div class="login">
- <form method="post"> 
-  <label for="email">Email:</label>
-  <input type="text" id="email" name="email"><br>
-
-  <label for="password">Password:</label>
-  <input type="password" id="password" name="password"><br>
-
-  <input type="submit" name="login" value="Accedi">
-
-  <p>Non hai un account? <a href="index.php?page=signup">Registrati</a></p>
- </form>
-
+<?php if($_GET["page"] == "login"): ?>
+ 
  <?php
-  if(isset($_POST["login"])) 
+ // Se l'utente è già loggato, lo reindirizzo alla home
+  if (isset($_SESSION["logged"])) 
   {
-   $email = trim($_POST["email"]);
-   $password = $_POST["password"];
+   header("Location: index.php?page=home");
+   exit;
+  }
+ ?>
 
-   if($email && $password)
+ <!--- Form di login --->
+ <div class="login">
+  <form method="post"> 
+   <label for="email">Email:</label>
+   <input type="text" id="email" name="email"><br>
+
+   <label for="password">Password:</label>
+   <input type="password" id="password" name="password"><br>
+
+   <input type="submit" name="login" value="Accedi">
+
+   <p>Non hai un account? <a href="index.php?page=signup">Registrati</a></p>
+  </form>
+
+  <?php
+   if(isset($_POST["login"])) 
    {
-    $stmt = $conn->prepare
-    (
-     "SELECT email, nome, cognome, password, colore, file_fattura FROM utenti WHERE email = ?"
-    );
+    $email = trim($_POST["email"]);
+    $password = $_POST["password"];
 
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
+    // Cerco l'utente nel database tramite email
+    $stmt = $conn->prepare("SELECT email, nome, cognome, password_hash, colore, file_fattura FROM utenti_sito WHERE email = ?");
+    $stmt->execute([$email]);
+    $u = $stmt->fetch();// Se non trova nulla $u vale falso, altrimenti contiene la riga trovata
 
-    $res = $stmt->get_result();
-   }
-  
-   if($res->num_rows === 1) 
-   {
-    $u = $res->fetch_assoc();
-
-    if(password_verify($password, $u["password"])) 
+    // Se l'utente esiste e la password è corretta, effettuo il login
+    if($u && password_verify($password, $u["password_hash"])) 
     {
      $_SESSION["logged"] = true;
      $_SESSION["user"] = 
@@ -58,10 +49,13 @@
 
      header("Location: index.php?page=home");
      exit;
+    } 
+    
+    else 
+    {
+     echo "<p style='color:red'>Credenziali non valide</p>";
     }
    }
-
-   echo "<p style='color:red'>Credenziali non valide</p>";
-  }
- ?>
-</div>
+  ?>
+ </div>
+<?php endif; ?> 

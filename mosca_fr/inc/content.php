@@ -1,7 +1,3 @@
-<?php
- require_once BASE_PATH . '/db.php';
-?>
-
 <div class="content">
  
  <!---------------------------------------------------------------- Se la page è Home ---------------------------------------------------------------->
@@ -21,9 +17,9 @@
  <?php endif; ?>
 
  <!---------------------------------------------------------------- Se la page è php_info ---------------------------------------------------------------->
- <?php if($_GET["page"] == "PHP_info"): ?>
+ <?php if($_GET["page"] == "PHP_info"){ ?>
   <iframe src="inc/phpinfo.php" title="PHP_info"></iframe> <!-- iframe per mostrare phpinfo -->
- <?php endif; ?>
+ <?php } ?>
 
  <!---------------------------------------------------------------- Se la page è Form ---------------------------------------------------------------->
  <?php if($_GET["page"] == "form"): ?>
@@ -99,7 +95,7 @@
 
      foreach($xml_sx->Articoli->Articolo as $art) 
      {
-      if((string)$art->Codice === (string)$codice)
+      if((string)$art->Codice === (string)$codice) 
       {
        $codice_esistente = true;
        break;
@@ -206,33 +202,22 @@
      $email = trim($_POST["email"]);
      $password = $_POST["password"];
 
-     if($email && $password)
+     $utenti = simplexml_load_file(BASE_PATH . "/utenti.xml") or die("Errore caricamento utenti");
+
+     $trovato = false;
+
+     foreach($utenti->Utente as $u) 
      {
-      $stmt = $conn->prepare
-      (
-       "SELECT email, nome, cognome, password, colore, file_fattura FROM utenti WHERE email = ?"
-      );
-
-      $stmt->bind_param("s", $email);
-      $stmt->execute();
-
-      $res = $stmt->get_result();
-     }
-    
-     if($res->num_rows === 1) 
-     {
-      $u = $res->fetch_assoc();
-
-      if(password_verify($password, $u["password"])) 
+      if((string)$u->Email === $email && password_verify($password, (string)$u->Password)) 
       {
        $_SESSION["logged"] = true;
        $_SESSION["user"] = 
        [
-        "email" => $u["email"],
-        "nome" => $u["nome"],
-        "cognome" => $u["cognome"],
-        "colore" => $u["colore"],
-        "file_fattura" => $u["file_fattura"]
+        "email" => $email,
+        "nome" => (string)$u->Nome,
+        "cognome" => (string)$u->Cognome,
+        "colore" => (string)$u->Colore,
+        "file_fattura" => (string)$u->FileFattura
        ];
 
        header("Location: index.php?page=home");
@@ -281,68 +266,88 @@
    <?php
     if(isset($_POST["signup"]))
     {
+     // Recupero e sanifico i dati del form
      $email = trim($_POST["email"]);
      $nome = trim($_POST["nome"]);
      $cognome = trim($_POST["cognome"]);
      $password = $_POST["password"];
      $conferma_password = $_POST["conferma_password"];
 
-     if($email && $nome && $cognome && $password && $password === $conferma_password) 
+     // Controllo che i campi non siano vuoti e che le password coincidano
+     if(!empty($email) && !empty($nome) && !empty($cognome) && !empty($password) && ($password === $conferma_password))
      {
-      // Controllo se l'email è già esistente
-      $stmt = $conn->prepare("SELECT id FROM utenti WHERE email = ?");
-      $stmt->bind_param("s", $email);
-      $stmt->execute();
-      $stmt->store_result();
+      $utenti = simplexml_load_file(BASE_PATH . "/utenti.xml") or die("Errore caricamento file utenti.xml");// Carico utenti.xml
 
-      if($stmt->num_rows > 0) 
-      {
-       echo "<p style='color:red'>Email già registrata</p>";
-      } 
+      // Controllo che l'email non sia già registrata
+      $esistente = false;
       
-      else 
+      foreach($utenti->Utente as $u) 
       {
-       $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+       if((string)$u->Email === $email) 
+       {
+        $esistente = true;
+        break;
+       }
+      }
 
-       // Genera file fattura
+      if(!$esistente)// Se l'email non è già registrata 
+      {
+       $hashed_password = password_hash($password, PASSWORD_DEFAULT);// Hash della password
+
+       // Aggiungo il nuovo utente all'XML
+       $new_user = $utenti->addChild("Utente");
+       $new_user->addChild("Email", $email);
+       $new_user->addChild("Nome", $nome);
+       $new_user->addChild("Cognome", $cognome);
+       $new_user->addChild("Password", $hashed_password);
+
+       // Sanificazione email per creare il file fattura
        $file_fattura = strtolower($email);
        $file_fattura = str_replace(['@', '.'], '_', $file_fattura);
        $file_fattura .= ".xml";
+       $new_user->addChild("FileFattura", $file_fattura);// Aggiungo il nome del file fattura all'XML utenti
 
-       // Colore random
+       // Generazione colore profilo casuale per sfondo immagine utente
        $colore = sprintf('#%02X%02X%02X', rand(60,200), rand(60,200), rand(60,200));
+       $new_user->addChild("Colore", $colore);// Aggiungo il colore all'XML utenti
 
-       // insert
-       $stmt = $conn->prepare
-       (
-        "INSERT INTO utenti (email, nome, cognome, password, colore, file_fattura) VALUES (?, ?, ?, ?, ?, ?)"
-       );
-       $stmt->bind_param("ssssss", $email, $nome, $cognome, $hashed_password, $colore, $file_fattura
-       );
-       $stmt->execute();
+       // Salvo le modifiche al file utenti.xml
+       $dom = new DOMDocument("1.0", "UTF-8");
+       $dom->preserveWhiteSpace = false;
+       $dom->formatOutput = true;
+       $dom->loadXML($utenti->asXML());
+       $dom->save(BASE_PATH . "/utenti.xml");
 
-       // Copia fattura default
-       copy(BASE_PATH . "/fatture/default.xml", BASE_PATH . "/fatture/" . $file_fattura);
+       // Copio il file fattura di default
+       if(!copy(BASE_PATH . "/fatture/default.xml", BASE_PATH . "/fatture/" . $file_fattura))// Se la copia fallisce
+       {
+        die("COPIA default.xml FALLITA");
+       }
 
-       // Login automatico
+       // Login automatico dopo la registrazione
        $_SESSION["logged"] = true;
        $_SESSION["user"] = 
        [
-        "email" => $email,
-        "nome" => $nome,
-        "cognome" => $cognome,
-        "colore" => $colore,
-        "file_fattura" => $file_fattura
+       "email" => $email,
+       "nome" => $nome,
+       "cognome" => $cognome,
+       "colore" => $colore,
+       "file_fattura" => $file_fattura
        ];
 
+       // Reindirazzamento alla home
        header("Location: index.php?page=home");
+
        exit;
+      } 
+      else 
+      {
+       echo "<p style='color:red'>Email già registrata</p>";
       }
      } 
-     
      else 
      {
-      echo "<p style='color:red'>Compila correttamente i campi</p>";
+      echo "<p style='color:red'>Compila tutti i campi correttamente</p>";
      }
     }
    ?>
@@ -450,7 +455,7 @@
    </form>
   <?php endif; ?>
 
-  </div>
+ </div>
  <?php endif; ?>
 
  <!---------------------------------------------------------------- Logout ---------------------------------------------------------------->
