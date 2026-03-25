@@ -569,3 +569,245 @@ input[name="ask_delete"]:hover, input[name="confirm_delete"]:hover
  color: #F5EEDC;
  border-color: #F5EEDC;
 }
+
+
+/* ========================================================================================================================================================================================
+                                         MOBILE
+   ======================================================================================================================================================================================== */
+@media screen and (max-width: 768px)
+{
+ html, body
+ {
+  overflow: auto; 
+ }
+
+ .wrapper
+ {
+  height: auto;
+  min-height: 100vh;
+ }
+
+ .container_sidebar_content
+ {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  min-height: auto;
+ }
+
+ /* ============================================
+                    HEADER
+    ============================================ */
+ .header
+ {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  padding: 12px;
+ }
+
+ .header h1,
+ .header h2,
+ .header h3,
+ .header p
+ {
+  margin: 0;
+  text-align: center;
+ }
+
+ .header-right
+ {
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+ }
+
+ .header form
+ {
+  flex: 1 1 auto;
+ }
+
+ .header input[type="submit"]
+ {
+  width: 100%;
+  min-height: 42px;
+ }
+
+ /* ============================================
+                    SIDEBAR
+    ============================================ */
+ .sidebar
+ {
+  width: 100%;
+  box-sizing: border-box;
+  border-right: none;
+  border-bottom: 1px solid #D7C3A3;
+  padding: 12px;
+  gap: 4px;
+ }
+
+ .sidebar a
+ {
+  margin-bottom: 10px;
+  padding: 10px 0;
+ }
+
+ .sidebar-user
+ {
+  margin-top: 10px;
+  margin-bottom: 0;
+  padding: 12px 0 0 0;
+ }
+
+ /* ============================================
+                    CONTENT
+    ============================================ */
+ .content
+ {
+  padding: 12px;
+  overflow-y: visible;
+ }
+
+ .content > .home
+ {
+  font-size: 22px;
+  padding: 20px 10px;
+ }
+
+ .content > iframe
+ {
+  min-height: 70vh;
+ }
+
+ .content > .form
+ {
+  width: 100%;
+  font-size: 18px;
+  align-items: stretch;
+ }
+
+ .content > .view_json
+ {
+  font-size: 12px;
+  overflow-x: auto;
+  word-break: break-word;
+ }
+
+ /* ============================================
+                  FORM PAGE TOP
+    ============================================ */
+ .form-top
+ {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 20px;
+  width: 100%;
+ }
+
+ .form-top > .json,
+ .form-top > .xml-status
+ {
+  text-align: left;
+ }
+
+ .form-top form
+ {
+  width: 100%;
+ }
+
+ /* ============================================
+                 TABELLE
+    ============================================ */
+ .content > .form > .tabella
+ {
+  width: 100%;
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  font-size: 14px;
+ }
+
+ /* ============================================
+                FORM ARTICOLI
+    ============================================ */
+ .article-form
+ {
+  width: 100%;
+  flex: none;
+  box-sizing: border-box;
+  padding: 12px;
+ }
+
+ .form-row
+ {
+  flex-direction: column;
+  gap: 12px;
+ }
+
+ .form-actions
+ {
+  flex-direction: column;
+  align-items: stretch;
+ }
+
+ .form-actions input,
+ .form-actions button
+ {
+  width: 100%;
+ }
+
+ /* ============================================
+                 LOGIN / SIGNUP
+    ============================================ */
+ .login,
+ .signup
+ {
+  padding: 20px 12px;
+  box-sizing: border-box;
+ }
+
+ .login form,
+ .signup form
+ {
+  width: 100%;
+  max-width: 360px;
+  box-sizing: border-box;
+ }
+
+ /* ============================================
+                  AREA UTENTE
+    ============================================ */
+ .user-box
+ {
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+  padding: 14px;
+ }
+
+ .user-actions
+ {
+  gap: 12px;
+ }
+
+ .user-form .form-actions
+ {
+  flex-direction: column;
+  align-items: stretch;
+ }
+
+ .user-form .form-actions input,
+ .user-form .form-actions button
+ {
+  width: 100%;
+ }
+
+ /* ============================================
+                    BOTTONI
+    ============================================ */
+ button,
+ input[type="submit"],
+ input[type="reset"]
+ {
+  min-height: 42px;
+ }
+}
