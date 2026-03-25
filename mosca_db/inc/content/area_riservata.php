@@ -205,6 +205,25 @@
  }
 ?>
 
+<?php
+ // Se l'utente ha cliccato sul pulsante per annullare la configurazione del 2FA
+ if(isset($_POST["cancel_2fa_setup"])) 
+ {
+  // Elimino il secret temporaneo dal database
+  $stmt = $conn->prepare("UPDATE utenti_sito SET twofa_temp_secret = NULL WHERE id = ?");
+  $stmt->execute([$_SESSION["user"]["id"]]);
+
+  // Ricarico i dati 2FA aggiornati dell'utente
+  $stmt = $conn->prepare("SELECT twofa_enabled, twofa_secret, twofa_temp_secret FROM utenti_sito WHERE id = ?");
+  $stmt->execute([$_SESSION["user"]["id"]]);
+  $twofa_data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  // Redirect con conferma
+  header("Location: index.php?page=area_riservata&twofa_cancelled=1");
+  exit;
+ }
+?>
+
 <!---------------------------------------------------------------- Area riservata HTML ---------------------------------------------------------------->
 <div class="area-riservata">
 
@@ -218,6 +237,11 @@
 
   <?php if(isset($_GET["saved"])) { ?>
    <p style="color:green">Modifiche salvate con successo</p>
+  <?php } ?>
+
+  <!-- Messaggio di conferma annullamento configurazione 2FA -->
+  <?php if(isset($_GET["twofa_cancelled"])) { ?>
+   <p style="color:green">Configurazione 2FA annullata con successo</p>
   <?php } ?>
 
   <form method="post" class="user-form">
@@ -268,22 +292,41 @@
 
    <!-- Se il 2FA non è attivo ma è già stata avviata la configurazione -->
    <?php if(!$twofa_data["twofa_enabled"] && $twofa_data["twofa_temp_secret"] !== null && $twofa_data["twofa_temp_secret"] !== "") { ?>
-    <?php $otpauth_uri = build_otpauth_uri($_SESSION["user"]["email"], $twofa_data["twofa_temp_secret"]); ?>
+    <?php
+     // Costruisco l'URI otpauth da usare per il QR code
+     $otpauth_uri = build_otpauth_uri($_SESSION["user"]["email"], $twofa_data["twofa_temp_secret"]);
+
+     // Genero il QR code come immagine base64
+     $qrcode_data_uri = generate_qrcode_data_uri($otpauth_uri);
+    ?>
 
     <p>Scansiona il QR code con Google Authenticator e inserisci il codice generato</p>
 
-    <!-- Per ora mostro secret e URI per testare il funzionamento -->
-    <p><strong>Secret:</strong> <?= htmlspecialchars($twofa_data["twofa_temp_secret"]) ?></p>
-    <p><strong>URI:</strong> <?= htmlspecialchars($otpauth_uri) ?></p>
+    <!-- Mostro il QR code da scansionare -->
+    <p><img src="<?= htmlspecialchars($qrcode_data_uri) ?>" alt="QR Code 2FA"></p>
+
+    <!-- Mostro anche il secret come alternativa manuale -->
+    <p>
+     <strong>Secret:</strong>
+     <span style="word-break: break-all; overflow-wrap: anywhere;">
+      <?= htmlspecialchars($twofa_data["twofa_temp_secret"]) ?>
+     </span>
+    </p>
 
     <form method="post">
-     <label>Codice 2FA</label>
+     <label>Codice 2FA </label>
      <input type="text" name="twofa_code" maxlength="6">
 
      <input type="submit" name="confirm_2fa" value="Conferma 2FA">
+
+     <form method="post" style="margin-top:10px">
+      <input type="submit" name="cancel_2fa_setup" value="Annulla configurazione 2FA">
+     </form>
     </form>
    <?php } ?>
 
+   <!---------------------------------------------------------------- Annullamento configurazione 2FA ---------------------------------------------------------------->
+   
    <!-- Se il 2FA è attivo -->
    <?php if($twofa_data["twofa_enabled"]) { ?>
     <p style="color:green">Il 2FA è attivo</p>
