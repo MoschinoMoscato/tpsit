@@ -24,10 +24,51 @@
   die("Connection failed: " . $e->getMessage());
  }
 
+ if(!isset($_SESSION["logged"]) && isset($_COOKIE["remember_token"]))
+ { 
+  $token = $_COOKIE["remember_token"];// Recupero il token dal cookie
+  
+  // Verifico il token nel database e recupero i dati dell'utente associato
+  $stmt = $conn->prepare
+  (
+   "SELECT u.id, u.email, u.nome, u.cognome, u.colore, u.file_fattura
+   FROM cookie_tks c
+   INNER JOIN utenti_sito u ON c.user_id = u.id
+   WHERE c.token = ? AND c.expiry > NOW()"
+  );
+  $stmt->execute([$token]);
+  $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  if($user)// Se il token è valido e l'utente è stato trovato, effettuo il login
+  {
+   $_SESSION["logged"] = true;
+   $_SESSION["user"] =
+   [
+    "id" => $user["id"],
+    "email" => $user["email"],
+    "nome" => $user["nome"],
+    "cognome" => $user["cognome"],
+    "colore" => $user["colore"],
+    "file_fattura" => $user["file_fattura"]
+   ];
+  }
+  else// Se il token non è valido, elimino il cookie
+  {
+   setcookie("remember_token", "", ["expires" => time() - 3600, "path" => "/", "secure" => false, "httponly" => true, "samesite" => "Lax"]);
+  }
+ }
+
  // Se l'utente è loggato, imposto il file della sua fattura
- if(isset($_SESSION["logged"])) 
+ if(isset($_SESSION["logged"]) && $_SESSION["logged"] === true) 
  { 
   $fattura_corrente = "fatture/" . $_SESSION["user"]["file_fattura"];
+ }
+
+ // Controllo se è stata specificata una pagina, altrimenti reindirizzo alla home
+ if(isset($_GET["page"]) == false)
+ {
+  header("Location: ?page=home");
+  exit;
  }
 
  // Carico DOMDocument 
@@ -54,14 +95,6 @@
 ?>
 
 <!DOCTYPE html>
-
-<?php
- if(isset($_GET["page"]) == false)
- {
-  header("Location: ?page=home");
-  exit;
- }
-?>
 
 <html lang="en-IT">
  <head>

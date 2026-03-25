@@ -15,15 +15,14 @@
  if(isset($_POST["save_changes"])) 
  {
   // Recupero e sanifico i dati del form
-  $email = $_SESSION["user"]["email"];// L'email non è modificabile, la prendo dalla sessione
   $nome = trim($_POST["nome"]);
   $cognome = trim($_POST["cognome"]);
 
   // Aggiorno i dati dell'utente nel database solo se i campi non sono vuoti
   if($nome !== "" && $cognome !== "") 
   {
-   $stmt = $conn->prepare("UPDATE utenti_sito SET nome = ?, cognome = ? WHERE email = ?");
-   $stmt->execute([$nome, $cognome, $email]);
+   $stmt = $conn->prepare("UPDATE utenti_sito SET nome = ?, cognome = ? WHERE id = ?");
+   $stmt->execute([$nome, $cognome, $_SESSION["user"]["id"]]);
 
    // Aggiorno i dati nella sessione
    $_SESSION["user"]["nome"] = $nome;
@@ -45,9 +44,21 @@
 <?php
  if(isset($_POST["logout"])) 
  {
-  session_unset(); // Rimuovo tutte le variabili di sessione
-  session_destroy(); // Distruggo la sessione
-  header("Location: index.php?page=home"); // Reindirizzo alla home
+  // Se è presente un token di "ricordami", lo elimino dal database ed elimino il cookie
+  if(isset($_COOKIE["remember_token"]))
+  {
+   $token = $_COOKIE["remember_token"];
+
+   $stmt = $conn->prepare("DELETE FROM cookie_tks WHERE token = ?");
+   $stmt->execute([$token]);
+
+   setcookie("remember_token", "", ["expires" => time() - 3600, "path" => "/", "secure" => false, "httponly" => true, "samesite" => "Lax"]);// Elimino il cookie dal browser
+  }
+
+  session_unset();// Rimuove tutte le variabili di sessione
+  session_destroy();// Distrugge la sessione
+
+  header("Location: index.php?page=home");
   exit;
  }
 ?>
@@ -64,29 +75,34 @@
   } 
   else
   {
-   // Recupero email e file fattura dell'utente loggato
-   $email = $_SESSION["user"]["email"];
+   // Recupero file fattura dell'utente loggato
    $file_fattura = BASE_PATH . "/fatture/" . $_SESSION["user"]["file_fattura"];
 
-   $stmt = $conn->prepare("SELECT password_hash FROM utenti_sito WHERE email = ?");
-   $stmt->execute([$email]);
+   $stmt = $conn->prepare("SELECT password_hash FROM utenti_sito WHERE id = ?");
+   $stmt->execute([$_SESSION["user"]["id"]]);
    $user = $stmt->fetch(PDO::FETCH_ASSOC);// Recupero l'hash della password dal database
 
    if($user && password_verify($password_input, $user["password_hash"]))// Verifico che la password inserita corrisponda all'hash memorizzato
    {
-    // Elimino l'utente dal database
-    $stmt = $conn->prepare("DELETE FROM utenti_sito WHERE email = ?");
-    $stmt->execute([$email]);
+    // Elimino l'utente dal database (i cookie si elimineranno automaticamente grazie alla condizione ON DELETE CASCADE)
+    $stmt = $conn->prepare("DELETE FROM utenti_sito WHERE id = ?");
+    $stmt->execute([$_SESSION["user"]["id"]]);
 
-    // Distruggo la sessione
-    session_unset();
-    session_destroy();
+    // Elimino eventuali cookie dal browser
+    if(isset($_COOKIE["remember_token"]))
+    {
+     setcookie("remember_token", "", ["expires" => time() - 3600, "path" => "/", "secure" => false, "httponly" => true, "samesite" => "Lax"]);
+    }
 
     // Elimino la fattura legata all'utente
     if(file_exists($file_fattura)) 
     {
      unlink($file_fattura);
     }
+
+    // Distruggo la sessione
+    session_unset();
+    session_destroy();
 
     // Redirect con conferma
     header("Location: index.php?page=home&deleted=1");
