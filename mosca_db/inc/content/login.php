@@ -32,7 +32,7 @@
     // Cerco l'utente nel database tramite email
     $stmt = $conn->prepare("SELECT email, nome, cognome, password_hash, colore, file_fattura FROM utenti_sito WHERE email = ?");
     $stmt->execute([$email]);
-    $u = $stmt->fetch();// Se non trova nulla $u vale falso, altrimenti contiene la riga trovata
+    $u = $stmt->fetch(PDO::FETCH_ASSOC);// Se non trova nulla $u vale false, altrimenti contiene la riga trovata; fetch(PDO::FETCH_ASSOC) per avere un array associativo
 
     // Se l'utente esiste e la password è corretta, effettuo il login
     if($u && password_verify($password, $u["password_hash"])) 

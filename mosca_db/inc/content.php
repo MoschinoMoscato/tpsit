@@ -53,23 +53,4 @@
   }
  ?>
 
- <!---------------------------------------------------------------- Logout ---------------------------------------------------------------->
- <?php
-  if(isset($_POST["logout"])) 
-  {
-   session_unset(); // Rimuovo tutte le variabili di sessione
-   session_destroy(); // Distruggo la sessione
-   header("Location: index.php?page=home"); // Reindirizzo alla home
-   exit;
-  }
- ?>
-
-<!---------------------------------------------------------------- Eliminazione account ---------------------------------------------------------------->
- <?php
-  if(isset($_POST["confirm_delete"])) 
-  {
-   require('content/delete_account.php');
-  }
- ?>
-
 </div>
