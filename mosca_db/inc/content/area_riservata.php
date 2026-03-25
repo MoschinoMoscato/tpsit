@@ -6,6 +6,13 @@
   exit;
  }
 
+ require_once BASE_PATH . "/inc/2fa.php";// Inclusione del file con le funzioni per 2FA
+
+ // Recupero i dati 2FA aggiornati dell'utente loggato
+ $stmt = $conn->prepare("SELECT twofa_enabled, twofa_secret, twofa_temp_secret FROM utenti_sito WHERE id = ?");
+ $stmt->execute([$_SESSION["user"]["id"]]);
+ $twofa_data = $stmt->fetch(PDO::FETCH_ASSOC);
+
  // Variabile per eventuali messaggi di errore da mostrare all'utente
  $errore = "";
 ?>
@@ -37,6 +44,87 @@
   {
    $errore = "Nome e cognome non possono essere vuoti";
   }
+ }
+?>
+
+<!---------------------------------------------------------------- Attivazione 2FA ---------------------------------------------------------------->
+<?php
+ // Se l'utente ha cliccato sul pulsante per attivare il 2FA
+ if(isset($_POST["start_2fa"])) 
+ {
+  // Genero un secret temporaneo solo se il 2FA non è già attivo
+  if(!$twofa_data["twofa_enabled"]) 
+  {
+   $temp_secret = generate_twofa_secret();
+
+   // Salvo il secret temporaneo nel database
+   $stmt = $conn->prepare("UPDATE utenti_sito SET twofa_temp_secret = ? WHERE id = ?");
+   $stmt->execute([$temp_secret, $_SESSION["user"]["id"]]);
+
+   // Ricarico i dati 2FA aggiornati dell'utente
+   $stmt = $conn->prepare("SELECT twofa_enabled, twofa_secret, twofa_temp_secret FROM utenti_sito WHERE id = ?");
+   $stmt->execute([$_SESSION["user"]["id"]]);
+   $twofa_data = $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+ }
+?>
+
+<!---------------------------------------------------------------- Conferma 2FA ---------------------------------------------------------------->
+<?php
+ // Se l'utente ha inserito il codice per confermare il 2FA
+ if(isset($_POST["confirm_2fa"])) 
+ {
+  // Recupero il codice inserito dall'utente
+  $twofa_code = trim($_POST["twofa_code"] ?? "");
+
+  // Controllo che esista una configurazione 2FA in corso
+  if($twofa_data["twofa_temp_secret"] === null || $twofa_data["twofa_temp_secret"] === "") 
+  {
+   $errore = "Nessuna configurazione 2FA in corso";
+  }
+  else
+  {
+   // Verifico se il codice inserito corrisponde a quello generato dall'app Authenticator
+   if(verify_totp_code($twofa_data["twofa_temp_secret"], $twofa_code)) 
+   {
+    // Se il codice è corretto, attivo il 2FA e sposto il secret temporaneo in quello definitivo
+    $stmt = $conn->prepare("UPDATE utenti_sito SET twofa_enabled = 1, twofa_secret = ?, twofa_temp_secret = NULL WHERE id = ?");
+    $stmt->execute([$twofa_data["twofa_temp_secret"], $_SESSION["user"]["id"]]);
+
+    // Ricarico i dati 2FA aggiornati dell'utente
+    $stmt = $conn->prepare("SELECT twofa_enabled, twofa_secret, twofa_temp_secret FROM utenti_sito WHERE id = ?");
+    $stmt->execute([$_SESSION["user"]["id"]]);
+    $twofa_data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Redirect con conferma
+    header("Location: index.php?page=area_riservata&twofa_enabled=1");
+    exit;
+   }
+   else
+   {
+    $errore = "Codice 2FA non valido";
+   }
+  }
+ }
+?>
+
+<!---------------------------------------------------------------- Disattivazione 2FA ---------------------------------------------------------------->
+<?php
+ // Se l'utente ha cliccato sul pulsante per disattivare il 2FA
+ if(isset($_POST["disable_2fa"])) 
+ {
+  // Disattivo il 2FA e rimuovo tutti i dati collegati
+  $stmt = $conn->prepare("UPDATE utenti_sito SET twofa_enabled = 0, twofa_secret = NULL, twofa_temp_secret = NULL, twofa_recovery_codes = NULL WHERE id = ?");
+  $stmt->execute([$_SESSION["user"]["id"]]);
+
+  // Ricarico i dati 2FA aggiornati dell'utente
+  $stmt = $conn->prepare("SELECT twofa_enabled, twofa_secret, twofa_temp_secret FROM utenti_sito WHERE id = ?");
+  $stmt->execute([$_SESSION["user"]["id"]]);
+  $twofa_data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  // Redirect con conferma
+  header("Location: index.php?page=area_riservata&twofa_disabled=1");
+  exit;
  }
 ?>
 
@@ -154,6 +242,57 @@
    </div>
 
   </form>
+
+  <!-- Sezione 2FA -->
+  <div class="twofa-box">
+   <h3>Autenticazione a due fattori</h3>
+
+   <!-- Messaggio di conferma attivazione 2FA -->
+   <?php if(isset($_GET["twofa_enabled"])) { ?>
+    <p style="color:green">2FA attivato con successo</p>
+   <?php } ?>
+
+   <!-- Messaggio di conferma disattivazione 2FA -->
+   <?php if(isset($_GET["twofa_disabled"])) { ?>
+    <p style="color:green">2FA disattivato con successo</p>
+   <?php } ?>
+
+   <!-- Se il 2FA non è attivo e non è ancora stata avviata una configurazione -->
+   <?php if(!$twofa_data["twofa_enabled"] && ($twofa_data["twofa_temp_secret"] === null || $twofa_data["twofa_temp_secret"] === "")) { ?>
+    <p>Il 2FA non è attivo</p>
+
+    <form method="post">
+     <input type="submit" name="start_2fa" value="Attiva 2FA">
+    </form>
+   <?php } ?>
+
+   <!-- Se il 2FA non è attivo ma è già stata avviata la configurazione -->
+   <?php if(!$twofa_data["twofa_enabled"] && $twofa_data["twofa_temp_secret"] !== null && $twofa_data["twofa_temp_secret"] !== "") { ?>
+    <?php $otpauth_uri = build_otpauth_uri($_SESSION["user"]["email"], $twofa_data["twofa_temp_secret"]); ?>
+
+    <p>Scansiona il QR code con Google Authenticator e inserisci il codice generato</p>
+
+    <!-- Per ora mostro secret e URI per testare il funzionamento -->
+    <p><strong>Secret:</strong> <?= htmlspecialchars($twofa_data["twofa_temp_secret"]) ?></p>
+    <p><strong>URI:</strong> <?= htmlspecialchars($otpauth_uri) ?></p>
+
+    <form method="post">
+     <label>Codice 2FA</label>
+     <input type="text" name="twofa_code" maxlength="6">
+
+     <input type="submit" name="confirm_2fa" value="Conferma 2FA">
+    </form>
+   <?php } ?>
+
+   <!-- Se il 2FA è attivo -->
+   <?php if($twofa_data["twofa_enabled"]) { ?>
+    <p style="color:green">Il 2FA è attivo</p>
+
+    <form method="post">
+     <input type="submit" name="disable_2fa" value="Disattiva 2FA">
+    </form>
+   <?php } ?>
+  </div>
 
   <div class="user-actions">
    <form method="post">

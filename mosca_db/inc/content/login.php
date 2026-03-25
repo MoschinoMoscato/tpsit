@@ -18,13 +18,32 @@
    $password = $_POST["password"];
 
    // Cerco l'utente nel database tramite email
-   $stmt = $conn->prepare("SELECT id, email, nome, cognome, password_hash, colore, file_fattura FROM utenti_sito WHERE email = ?");
+   $stmt = $conn->prepare("SELECT id, email, nome, cognome, password_hash, colore, file_fattura, twofa_enabled, twofa_secret FROM utenti_sito WHERE email = ?");
    $stmt->execute([$email]);
    $u = $stmt->fetch(PDO::FETCH_ASSOC);// Se non trova nulla $u vale false, altrimenti contiene la riga trovata; fetch(PDO::FETCH_ASSOC) per avere un array associativo
 
    // Se l'utente esiste e la password è corretta, effettuo il login
    if($u && password_verify($password, $u["password_hash"])) 
    {
+    // Se il 2FA è attivo, salvo i dati temporaneamente in sessione e rimando alla verifica del codice
+    if($u["twofa_enabled"] && !empty($u["twofa_secret"])) 
+    {
+     $_SESSION["pending_2fa_user"] = 
+     [
+      "id" => $u["id"],
+      "email" => $u["email"],
+      "nome" => $u["nome"],
+      "cognome" => $u["cognome"],
+      "colore" => $u["colore"],
+      "file_fattura" => $u["file_fattura"],
+      "twofa_secret" => $u["twofa_secret"]
+     ];
+
+     header("Location: index.php?page=verify_2fa");
+     exit;
+    }
+
+    // Se il 2FA non è attivo, effettuo il login normale 
     $_SESSION["logged"] = true;
     $_SESSION["user"] = 
     [

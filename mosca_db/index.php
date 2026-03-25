@@ -4,6 +4,8 @@
 
  define("BASE_PATH", __DIR__);// Definisco il path base
 
+ require_once BASE_PATH . "/vendor/autoload.php";// Inclusione autoload di Composer per caricare le librerie esterne
+
  $fattura_corrente = "fatture/public.xml";// File di default per la fattura
 
  // Connessione DB
