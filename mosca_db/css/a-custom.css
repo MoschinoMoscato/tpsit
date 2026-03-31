@@ -570,6 +570,31 @@ input[name="ask_delete"]:hover, input[name="confirm_delete"]:hover
  border-color: #F5EEDC;
 }
 
+/* ============================================
+                    COOKIE PAGE
+   ============================================ */
+
+  .cookie-page
+ {
+  gap: 30px;
+ }
+
+ .cookie-page .article-form
+ {
+  flex: 0 0 auto;
+  width: 320px;
+ }
+
+ .cookie-page .tabella
+ {
+  width: 90%;
+ }
+
+ .cookie-page .tabella td form
+ {
+  margin: 0;
+ }
+
 
 /* ========================================================================================================================================================================================
                                          MOBILE
@@ -809,5 +834,13 @@ input[name="ask_delete"]:hover, input[name="confirm_delete"]:hover
  input[type="reset"]
  {
   min-height: 42px;
+ }
+
+ /* ============================================
+                    COOKIE PAGE
+   ============================================ */
+ .cookie-page
+ {
+  gap: 20px;
  }
 }

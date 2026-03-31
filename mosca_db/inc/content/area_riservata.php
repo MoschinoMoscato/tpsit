@@ -114,7 +114,7 @@
  if(isset($_POST["disable_2fa"])) 
  {
   // Disattivo il 2FA e rimuovo tutti i dati collegati
-  $stmt = $conn->prepare("UPDATE utenti_sito SET twofa_enabled = 0, twofa_secret = NULL, twofa_temp_secret = NULL, twofa_recovery_codes = NULL WHERE id = ?");
+  $stmt = $conn->prepare("UPDATE utenti_sito SET twofa_enabled = 0, twofa_secret = NULL, twofa_temp_secret = NULL WHERE id = ?");
   $stmt->execute([$_SESSION["user"]["id"]]);
 
   // Ricarico i dati 2FA aggiornati dell'utente

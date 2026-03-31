@@ -21,6 +21,12 @@
             <page>form</page>
             <pos>3</pos>
         </link>
+
+        <link>
+            <text>Cookie</text>
+            <page>cookie</page>
+            <pos>4</pos>
+        </link>
     </sidebar>
 
     <footer>© 2025-2026 Leonardo Mosca</footer>
